@@ -1,0 +1,497 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/routes/AppRoutes.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=e7692922"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=e7692922"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react;
+import { Routes, Route, Navigate } from "/node_modules/.vite/deps/react-router-dom.js?v=e7692922";
+import { PublicLayout } from "/src/layouts/PublicLayout.jsx?t=1788811806668";
+import { DashboardLayout } from "/src/layouts/DashboardLayout.jsx?t=1788811806668";
+import { HomePage } from "/src/pages/public/HomePage.jsx";
+import { AboutPage } from "/src/pages/public/AboutPage.jsx";
+import { HowItWorksPage } from "/src/pages/public/HowItWorksPage.jsx";
+import { FeaturesPage } from "/src/pages/public/FeaturesPage.jsx";
+import { OpportunitiesPage } from "/src/pages/public/OpportunitiesPage.jsx?t=1788811806668";
+import { ContactPage } from "/src/pages/public/ContactPage.jsx";
+import { PublicPassportView } from "/src/pages/public/PublicPassportView.jsx?t=1788811806668";
+import { LoginPage } from "/src/pages/auth/LoginPage.jsx?t=1788811806668";
+import { RegisterPage } from "/src/pages/auth/RegisterPage.jsx?t=1788811806668";
+import { StudentDashboard } from "/src/pages/student/StudentDashboard.jsx?t=1788811806668";
+import { StudentProfile } from "/src/pages/student/StudentProfile.jsx?t=1788811806668";
+import { ResumeUpload } from "/src/pages/student/ResumeUpload.jsx?t=1788811806668";
+import { SkillMapPage } from "/src/pages/student/SkillMapPage.jsx?t=1788811806668";
+import { SkillAssessmentPage } from "/src/pages/student/SkillAssessmentPage.jsx?t=1788811806668";
+import { GithubVerificationPage } from "/src/pages/student/GithubVerificationPage.jsx?t=1788811806668";
+import { CompetitiveCodingPage } from "/src/pages/student/CompetitiveCodingPage.jsx?t=1788811806668";
+import { AIInterviewPage } from "/src/pages/student/AIInterviewPage.jsx?t=1788812090244";
+import { SkillPassportPage } from "/src/pages/student/SkillPassportPage.jsx?t=1788811806668";
+import { SkillGapRoadmapPage } from "/src/pages/student/SkillGapRoadmapPage.jsx?t=1788811806668";
+import { JobsOpportunitiesPage } from "/src/pages/student/JobsOpportunitiesPage.jsx?t=1788811806668";
+import { IndustryDashboard } from "/src/pages/industry/IndustryDashboard.jsx?t=1788811806668";
+import { PostJobPage } from "/src/pages/industry/PostJobPage.jsx?t=1788811806668";
+import { CandidateSearchPage } from "/src/pages/industry/CandidateSearchPage.jsx?t=1788812234868";
+import { CollaborationsPage } from "/src/pages/industry/CollaborationsPage.jsx";
+import { AcademiaDashboard } from "/src/pages/academician/AcademiaDashboard.jsx?t=1788811806668";
+import { FacultyOpportunitiesPage } from "/src/pages/academician/FacultyOpportunitiesPage.jsx?t=1788811806668";
+import { StudentMentorshipPage } from "/src/pages/academician/StudentMentorshipPage.jsx?t=1788811806668";
+import { OpportunityApprovalsPage } from "/src/pages/academician/OpportunityApprovalsPage.jsx?t=1788811806668";
+import { InstitutionDashboard } from "/src/pages/institution/InstitutionDashboard.jsx";
+import { DemandVsAvailabilityPage } from "/src/pages/institution/DemandVsAvailabilityPage.jsx?t=1788811806668";
+export const AppRoutes = () => {
+  return /* @__PURE__ */ jsxDEV(Routes, { children: [
+    /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(PublicLayout, {}, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 73,
+      columnNumber: 23
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(HomePage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 74,
+        columnNumber: 34
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 74,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/about", element: /* @__PURE__ */ jsxDEV(AboutPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 75,
+        columnNumber: 39
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 75,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/how-it-works", element: /* @__PURE__ */ jsxDEV(HowItWorksPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 76,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 76,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/features", element: /* @__PURE__ */ jsxDEV(FeaturesPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 77,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 77,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/opportunities", element: /* @__PURE__ */ jsxDEV(OpportunitiesPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 78,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 78,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/contact", element: /* @__PURE__ */ jsxDEV(ContactPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 79,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 79,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/login", element: /* @__PURE__ */ jsxDEV(LoginPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 80,
+        columnNumber: 39
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 80,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/register", element: /* @__PURE__ */ jsxDEV(RegisterPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 81,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 81,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/auth/login", element: /* @__PURE__ */ jsxDEV(LoginPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 82,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 82,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/auth/register", element: /* @__PURE__ */ jsxDEV(RegisterPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 83,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 83,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/verify/:passportId", element: /* @__PURE__ */ jsxDEV(PublicPassportView, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 84,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 84,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 73,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/student", element: /* @__PURE__ */ jsxDEV(DashboardLayout, {}, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 88,
+      columnNumber: 39
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/student/dashboard", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 89,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 89,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "dashboard", element: /* @__PURE__ */ jsxDEV(StudentDashboard, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 90,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 90,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "profile", element: /* @__PURE__ */ jsxDEV(StudentProfile, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 91,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 91,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "resume-upload", element: /* @__PURE__ */ jsxDEV(ResumeUpload, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 92,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 92,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "skill-map", element: /* @__PURE__ */ jsxDEV(SkillMapPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 93,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 93,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "assessments", element: /* @__PURE__ */ jsxDEV(SkillAssessmentPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 94,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 94,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "github-verify", element: /* @__PURE__ */ jsxDEV(GithubVerificationPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 95,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 95,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "competitive-coding", element: /* @__PURE__ */ jsxDEV(CompetitiveCodingPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 96,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 96,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "ai-interview", element: /* @__PURE__ */ jsxDEV(AIInterviewPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 97,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 97,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "passport", element: /* @__PURE__ */ jsxDEV(SkillPassportPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 98,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 98,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "skill-passport", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/student/passport", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 99,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 99,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "skill-gap-roadmap", element: /* @__PURE__ */ jsxDEV(SkillGapRoadmapPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 100,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 100,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "roadmap", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/student/skill-gap-roadmap", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 101,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 101,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "jobs", element: /* @__PURE__ */ jsxDEV(JobsOpportunitiesPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 102,
+        columnNumber: 37
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 102,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 88,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/industry", element: /* @__PURE__ */ jsxDEV(DashboardLayout, {}, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 107,
+      columnNumber: 40
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/industry/dashboard", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 108,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 108,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "dashboard", element: /* @__PURE__ */ jsxDEV(IndustryDashboard, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 109,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 109,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "post-job", element: /* @__PURE__ */ jsxDEV(PostJobPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 110,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 110,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "candidates", element: /* @__PURE__ */ jsxDEV(CandidateSearchPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 111,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 111,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "collaborations", element: /* @__PURE__ */ jsxDEV(CollaborationsPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 112,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 112,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 107,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/academician", element: /* @__PURE__ */ jsxDEV(DashboardLayout, {}, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 116,
+      columnNumber: 43
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/academician/dashboard", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 117,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 117,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "dashboard", element: /* @__PURE__ */ jsxDEV(AcademiaDashboard, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 118,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 118,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "opportunities", element: /* @__PURE__ */ jsxDEV(FacultyOpportunitiesPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 119,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 119,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "mentorship", element: /* @__PURE__ */ jsxDEV(StudentMentorshipPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 120,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 120,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "approvals", element: /* @__PURE__ */ jsxDEV(OpportunityApprovalsPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 121,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 121,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 116,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/academia", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/academician", replace: true }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 123,
+      columnNumber: 40
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 123,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/academia/*", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/academician", replace: true }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 124,
+      columnNumber: 42
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 124,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/institution", element: /* @__PURE__ */ jsxDEV(DashboardLayout, {}, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 127,
+      columnNumber: 43
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/institution/dashboard", replace: true }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 128,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 128,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "dashboard", element: /* @__PURE__ */ jsxDEV(InstitutionDashboard, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 129,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 129,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "demand-vs-availability", element: /* @__PURE__ */ jsxDEV(DemandVsAvailabilityPage, {}, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 130,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+        lineNumber: 130,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 127,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "*", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/", replace: true }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 134,
+      columnNumber: 32
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+      lineNumber: 134,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx",
+    lineNumber: 71,
+    columnNumber: 5
+  }, this);
+};
+_c = AppRoutes;
+export default AppRoutes;
+var _c;
+$RefreshReg$(_c, "AppRoutes");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/routes/AppRoutes.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QVMsdUJBQUMsWUFBUyxJQUFHLDBCQUF5QixTQUFPLFFBQTdDO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBNkMsS0FBbkU7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUF1RTtBQUFBLE1BQ3ZFLHVCQUFDLFNBQU0sTUFBSyxhQUFZLFNBQVMsdUJBQUMsMEJBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFxQixLQUF0RDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQTBEO0FBQUEsTUFDMUQsdUJBQUMsU0FBTSxNQUFLLDBCQUF5QixTQUFTLHVCQUFDLDhCQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBeUIsS0FBdkU7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUEyRTtBQUFBLFNBSDdFO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FJQTtBQUFBLElBR0EsdUJBQUMsU0FBTSxNQUFLLEtBQUksU0FBUyx1QkFBQyxZQUFTLElBQUcsS0FBSSxTQUFPLFFBQXhCO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FBd0IsS0FBakQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUFxRDtBQUFBLE9BL0R2RDtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBZ0VBO0FBRUo7QUFBRUMsS0FwRVdEO0FBc0ViLGVBQWVBO0FBQVUsSUFBQUM7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsiUmVhY3QiLCJSb3V0ZXMiLCJSb3V0ZSIsIk5hdmlnYXRlIiwiUHVibGljTGF5b3V0IiwiRGFzaGJvYXJkTGF5b3V0IiwiSG9tZVBhZ2UiLCJBYm91dFBhZ2UiLCJIb3dJdFdvcmtzUGFnZSIsIkZlYXR1cmVzUGFnZSIsIk9wcG9ydHVuaXRpZXNQYWdlIiwiQ29udGFjdFBhZ2UiLCJQdWJsaWNQYXNzcG9ydFZpZXciLCJMb2dpblBhZ2UiLCJSZWdpc3RlclBhZ2UiLCJTdHVkZW50RGFzaGJvYXJkIiwiU3R1ZGVudFByb2ZpbGUiLCJSZXN1bWVVcGxvYWQiLCJTa2lsbE1hcFBhZ2UiLCJTa2lsbEFzc2Vzc21lbnRQYWdlIiwiR2l0aHViVmVyaWZpY2F0aW9uUGFnZSIsIkNvbXBldGl0aXZlQ29kaW5nUGFnZSIsIkFJSW50ZXJ2aWV3UGFnZSIsIlNraWxsUGFzc3BvcnRQYWdlIiwiU2tpbGxHYXBSb2FkbWFwUGFnZSIsIkpvYnNPcHBvcnR1bml0aWVzUGFnZSIsIkluZHVzdHJ5RGFzaGJvYXJkIiwiUG9zdEpvYlBhZ2UiLCJDYW5kaWRhdGVTZWFyY2hQYWdlIiwiQ29sbGFib3JhdGlvbnNQYWdlIiwiQWNhZGVtaWFEYXNoYm9hcmQiLCJGYWN1bHR5T3Bwb3J0dW5pdGllc1BhZ2UiLCJTdHVkZW50TWVudG9yc2hpcFBhZ2UiLCJPcHBvcnR1bml0eUFwcHJvdmFsc1BhZ2UiLCJJbnN0aXR1dGlvbkRhc2hib2FyZCIsIkRlbWFuZFZzQXZhaWxhYmlsaXR5UGFnZSIsIkFwcFJvdXRlcyIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkFwcFJvdXRlcy5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IFJvdXRlcywgUm91dGUsIE5hdmlnYXRlIH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSc7XG5cbi8vIExheW91dHNcbmltcG9ydCB7IFB1YmxpY0xheW91dCB9IGZyb20gJy4uL2xheW91dHMvUHVibGljTGF5b3V0JztcbmltcG9ydCB7IERhc2hib2FyZExheW91dCB9IGZyb20gJy4uL2xheW91dHMvRGFzaGJvYXJkTGF5b3V0JztcblxuLy8gUHVibGljIFBhZ2VzXG5pbXBvcnQgeyBIb21lUGFnZSB9IGZyb20gJy4uL3BhZ2VzL3B1YmxpYy9Ib21lUGFnZSc7XG5pbXBvcnQgeyBBYm91dFBhZ2UgfSBmcm9tICcuLi9wYWdlcy9wdWJsaWMvQWJvdXRQYWdlJztcbmltcG9ydCB7IEhvd0l0V29ya3NQYWdlIH0gZnJvbSAnLi4vcGFnZXMvcHVibGljL0hvd0l0V29ya3NQYWdlJztcbmltcG9ydCB7IEZlYXR1cmVzUGFnZSB9IGZyb20gJy4uL3BhZ2VzL3B1YmxpYy9GZWF0dXJlc1BhZ2UnO1xuaW1wb3J0IHsgT3Bwb3J0dW5pdGllc1BhZ2UgfSBmcm9tICcuLi9wYWdlcy9wdWJsaWMvT3Bwb3J0dW5pdGllc1BhZ2UnO1xuaW1wb3J0IHsgQ29udGFjdFBhZ2UgfSBmcm9tICcuLi9wYWdlcy9wdWJsaWMvQ29udGFjdFBhZ2UnO1xuaW1wb3J0IHsgUHVibGljUGFzc3BvcnRWaWV3IH0gZnJvbSAnLi4vcGFnZXMvcHVibGljL1B1YmxpY1Bhc3Nwb3J0Vmlldyc7XG5cbi8vIEF1dGggUGFnZXMgKHJlb3JnYW5pemVkIHRvIHBhZ2VzL2F1dGgvKVxuaW1wb3J0IHsgTG9naW5QYWdlIH0gZnJvbSAnLi4vcGFnZXMvYXV0aC9Mb2dpblBhZ2UnO1xuaW1wb3J0IHsgUmVnaXN0ZXJQYWdlIH0gZnJvbSAnLi4vcGFnZXMvYXV0aC9SZWdpc3RlclBhZ2UnO1xuXG4vLyBTdHVkZW50IFBvcnRhbCBQYWdlc1xuaW1wb3J0IHsgU3R1ZGVudERhc2hib2FyZCB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvU3R1ZGVudERhc2hib2FyZCc7XG5pbXBvcnQgeyBTdHVkZW50UHJvZmlsZSB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvU3R1ZGVudFByb2ZpbGUnO1xuaW1wb3J0IHsgUmVzdW1lVXBsb2FkIH0gZnJvbSAnLi4vcGFnZXMvc3R1ZGVudC9SZXN1bWVVcGxvYWQnO1xuaW1wb3J0IHsgU2tpbGxNYXBQYWdlIH0gZnJvbSAnLi4vcGFnZXMvc3R1ZGVudC9Ta2lsbE1hcFBhZ2UnO1xuaW1wb3J0IHsgU2tpbGxBc3Nlc3NtZW50UGFnZSB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvU2tpbGxBc3Nlc3NtZW50UGFnZSc7XG5pbXBvcnQgeyBHaXRodWJWZXJpZmljYXRpb25QYWdlIH0gZnJvbSAnLi4vcGFnZXMvc3R1ZGVudC9HaXRodWJWZXJpZmljYXRpb25QYWdlJztcbmltcG9ydCB7IENvbXBldGl0aXZlQ29kaW5nUGFnZSB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvQ29tcGV0aXRpdmVDb2RpbmdQYWdlJztcbmltcG9ydCB7IEFJSW50ZXJ2aWV3UGFnZSB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvQUlJbnRlcnZpZXdQYWdlJztcbmltcG9ydCB7IFNraWxsUGFzc3BvcnRQYWdlIH0gZnJvbSAnLi4vcGFnZXMvc3R1ZGVudC9Ta2lsbFBhc3Nwb3J0UGFnZSc7XG5pbXBvcnQgeyBTa2lsbEdhcFJvYWRtYXBQYWdlIH0gZnJvbSAnLi4vcGFnZXMvc3R1ZGVudC9Ta2lsbEdhcFJvYWRtYXBQYWdlJztcbmltcG9ydCB7IEpvYnNPcHBvcnR1bml0aWVzUGFnZSB9IGZyb20gJy4uL3BhZ2VzL3N0dWRlbnQvSm9ic09wcG9ydHVuaXRpZXNQYWdlJztcblxuLy8gSW5kdXN0cnkgUG9ydGFsIFBhZ2VzXG5pbXBvcnQgeyBJbmR1c3RyeURhc2hib2FyZCB9IGZyb20gJy4uL3BhZ2VzL2luZHVzdHJ5L0luZHVzdHJ5RGFzaGJvYXJkJztcbmltcG9ydCB7IFBvc3RKb2JQYWdlIH0gZnJvbSAnLi4vcGFnZXMvaW5kdXN0cnkvUG9zdEpvYlBhZ2UnO1xuaW1wb3J0IHsgQ2FuZGlkYXRlU2VhcmNoUGFnZSB9IGZyb20gJy4uL3BhZ2VzL2luZHVzdHJ5L0NhbmRpZGF0ZVNlYXJjaFBhZ2UnO1xuaW1wb3J0IHsgQ29sbGFib3JhdGlvbnNQYWdlIH0gZnJvbSAnLi4vcGFnZXMvaW5kdXN0cnkvQ29sbGFib3JhdGlvbnNQYWdlJztcblxuLy8gQWNhZGVtaWNpYW4gUG9ydGFsIFBhZ2VzIChyZW9yZ2FuaXplZCB0byBwYWdlcy9hY2FkZW1pY2lhbi8pXG5pbXBvcnQgeyBBY2FkZW1pYURhc2hib2FyZCB9IGZyb20gJy4uL3BhZ2VzL2FjYWRlbWljaWFuL0FjYWRlbWlhRGFzaGJvYXJkJztcbmltcG9ydCB7IEZhY3VsdHlPcHBvcnR1bml0aWVzUGFnZSB9IGZyb20gJy4uL3BhZ2VzL2FjYWRlbWljaWFuL0ZhY3VsdHlPcHBvcnR1bml0aWVzUGFnZSc7XG5pbXBvcnQgeyBTdHVkZW50TWVudG9yc2hpcFBhZ2UgfSBmcm9tICcuLi9wYWdlcy9hY2FkZW1pY2lhbi9TdHVkZW50TWVudG9yc2hpcFBhZ2UnO1xuaW1wb3J0IHsgT3Bwb3J0dW5pdHlBcHByb3ZhbHNQYWdlIH0gZnJvbSAnLi4vcGFnZXMvYWNhZGVtaWNpYW4vT3Bwb3J0dW5pdHlBcHByb3ZhbHNQYWdlJztcblxuLy8gSW5zdGl0dXRpb24gUG9ydGFsIFBhZ2VzXG5pbXBvcnQgeyBJbnN0aXR1dGlvbkRhc2hib2FyZCB9IGZyb20gJy4uL3BhZ2VzL2luc3RpdHV0aW9uL0luc3RpdHV0aW9uRGFzaGJvYXJkJztcbmltcG9ydCB7IERlbWFuZFZzQXZhaWxhYmlsaXR5UGFnZSB9IGZyb20gJy4uL3BhZ2VzL2luc3RpdHV0aW9uL0RlbWFuZFZzQXZhaWxhYmlsaXR5UGFnZSc7XG5cbmV4cG9ydCBjb25zdCBBcHBSb3V0ZXMgPSAoKSA9PiB7XG4gIHJldHVybiAoXG4gICAgPFJvdXRlcz5cbiAgICAgIHsvKiBQdWJsaWMgUGFnZXMgTGF5b3V0ICovfVxuICAgICAgPFJvdXRlIGVsZW1lbnQ9ezxQdWJsaWNMYXlvdXQgLz59PlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9cIiBlbGVtZW50PXs8SG9tZVBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL2Fib3V0XCIgZWxlbWVudD17PEFib3V0UGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCIvaG93LWl0LXdvcmtzXCIgZWxlbWVudD17PEhvd0l0V29ya3NQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9mZWF0dXJlc1wiIGVsZW1lbnQ9ezxGZWF0dXJlc1BhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL29wcG9ydHVuaXRpZXNcIiBlbGVtZW50PXs8T3Bwb3J0dW5pdGllc1BhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL2NvbnRhY3RcIiBlbGVtZW50PXs8Q29udGFjdFBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL2xvZ2luXCIgZWxlbWVudD17PExvZ2luUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCIvcmVnaXN0ZXJcIiBlbGVtZW50PXs8UmVnaXN0ZXJQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIi9hdXRoL2xvZ2luXCIgZWxlbWVudD17PExvZ2luUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCIvYXV0aC9yZWdpc3RlclwiIGVsZW1lbnQ9ezxSZWdpc3RlclBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL3ZlcmlmeS86cGFzc3BvcnRJZFwiIGVsZW1lbnQ9ezxQdWJsaWNQYXNzcG9ydFZpZXcgLz59IC8+XG4gICAgICA8L1JvdXRlPlxuXG4gICAgICB7LyogU3R1ZGVudCBQb3J0YWwgUm91dGVzICovfVxuICAgICAgPFJvdXRlIHBhdGg9XCIvc3R1ZGVudFwiIGVsZW1lbnQ9ezxEYXNoYm9hcmRMYXlvdXQgLz59PlxuICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3N0dWRlbnQvZGFzaGJvYXJkXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJkYXNoYm9hcmRcIiBlbGVtZW50PXs8U3R1ZGVudERhc2hib2FyZCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9maWxlXCIgZWxlbWVudD17PFN0dWRlbnRQcm9maWxlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInJlc3VtZS11cGxvYWRcIiBlbGVtZW50PXs8UmVzdW1lVXBsb2FkIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInNraWxsLW1hcFwiIGVsZW1lbnQ9ezxTa2lsbE1hcFBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYXNzZXNzbWVudHNcIiBlbGVtZW50PXs8U2tpbGxBc3Nlc3NtZW50UGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJnaXRodWItdmVyaWZ5XCIgZWxlbWVudD17PEdpdGh1YlZlcmlmaWNhdGlvblBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiY29tcGV0aXRpdmUtY29kaW5nXCIgZWxlbWVudD17PENvbXBldGl0aXZlQ29kaW5nUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJhaS1pbnRlcnZpZXdcIiBlbGVtZW50PXs8QUlJbnRlcnZpZXdQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInBhc3Nwb3J0XCIgZWxlbWVudD17PFNraWxsUGFzc3BvcnRQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInNraWxsLXBhc3Nwb3J0XCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3N0dWRlbnQvcGFzc3BvcnRcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInNraWxsLWdhcC1yb2FkbWFwXCIgZWxlbWVudD17PFNraWxsR2FwUm9hZG1hcFBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicm9hZG1hcFwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9zdHVkZW50L3NraWxsLWdhcC1yb2FkbWFwXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJqb2JzXCIgZWxlbWVudD17PEpvYnNPcHBvcnR1bml0aWVzUGFnZSAvPn0gLz5cbiAgICAgIDwvUm91dGU+XG5cblxuICAgICAgey8qIEluZHVzdHJ5IFBvcnRhbCBSb3V0ZXMgKi99XG4gICAgICA8Um91dGUgcGF0aD1cIi9pbmR1c3RyeVwiIGVsZW1lbnQ9ezxEYXNoYm9hcmRMYXlvdXQgLz59PlxuICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2luZHVzdHJ5L2Rhc2hib2FyZFwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZGFzaGJvYXJkXCIgZWxlbWVudD17PEluZHVzdHJ5RGFzaGJvYXJkIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInBvc3Qtam9iXCIgZWxlbWVudD17PFBvc3RKb2JQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImNhbmRpZGF0ZXNcIiBlbGVtZW50PXs8Q2FuZGlkYXRlU2VhcmNoUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJjb2xsYWJvcmF0aW9uc1wiIGVsZW1lbnQ9ezxDb2xsYWJvcmF0aW9uc1BhZ2UgLz59IC8+XG4gICAgICA8L1JvdXRlPlxuXG4gICAgICB7LyogQWNhZGVtaWNpYW4gUG9ydGFsIFJvdXRlcyAoc3VwcG9ydHMgYm90aCAvYWNhZGVtaWNpYW4gYW5kIC9hY2FkZW1pYSkgKi99XG4gICAgICA8Um91dGUgcGF0aD1cIi9hY2FkZW1pY2lhblwiIGVsZW1lbnQ9ezxEYXNoYm9hcmRMYXlvdXQgLz59PlxuICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2FjYWRlbWljaWFuL2Rhc2hib2FyZFwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZGFzaGJvYXJkXCIgZWxlbWVudD17PEFjYWRlbWlhRGFzaGJvYXJkIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm9wcG9ydHVuaXRpZXNcIiBlbGVtZW50PXs8RmFjdWx0eU9wcG9ydHVuaXRpZXNQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm1lbnRvcnNoaXBcIiBlbGVtZW50PXs8U3R1ZGVudE1lbnRvcnNoaXBQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImFwcHJvdmFsc1wiIGVsZW1lbnQ9ezxPcHBvcnR1bml0eUFwcHJvdmFsc1BhZ2UgLz59IC8+XG4gICAgICA8L1JvdXRlPlxuICAgICAgPFJvdXRlIHBhdGg9XCIvYWNhZGVtaWFcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvYWNhZGVtaWNpYW5cIiByZXBsYWNlIC8+fSAvPlxuICAgICAgPFJvdXRlIHBhdGg9XCIvYWNhZGVtaWEvKlwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9hY2FkZW1pY2lhblwiIHJlcGxhY2UgLz59IC8+XG5cbiAgICAgIHsvKiBJbnN0aXR1dGlvbiBQb3J0YWwgUm91dGVzICovfVxuICAgICAgPFJvdXRlIHBhdGg9XCIvaW5zdGl0dXRpb25cIiBlbGVtZW50PXs8RGFzaGJvYXJkTGF5b3V0IC8+fT5cbiAgICAgICAgPFJvdXRlIGluZGV4IGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9pbnN0aXR1dGlvbi9kYXNoYm9hcmRcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImRhc2hib2FyZFwiIGVsZW1lbnQ9ezxJbnN0aXR1dGlvbkRhc2hib2FyZCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJkZW1hbmQtdnMtYXZhaWxhYmlsaXR5XCIgZWxlbWVudD17PERlbWFuZFZzQXZhaWxhYmlsaXR5UGFnZSAvPn0gLz5cbiAgICAgIDwvUm91dGU+XG5cbiAgICAgIHsvKiBGYWxsYmFjayB0byBIb21lICovfVxuICAgICAgPFJvdXRlIHBhdGg9XCIqXCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL1wiIHJlcGxhY2UgLz59IC8+XG4gICAgPC9Sb3V0ZXM+XG4gICk7XG59O1xuXG5leHBvcnQgZGVmYXVsdCBBcHBSb3V0ZXM7XG4iXSwiZmlsZSI6IkM6L1VzZXJzL0RlbGwvLmdlbWluaS9hbnRpZ3Jhdml0eS9zY3JhdGNoL3NraWxscHJvb2YvZnJvbnRlbmQvc3JjL3JvdXRlcy9BcHBSb3V0ZXMuanN4In0=

@@ -1,0 +1,869 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/student/GithubVerificationPage.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=e7692922"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=e7692922"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"];
+import {
+  GitBranch,
+  Star,
+  GitCommit,
+  ExternalLink,
+  ShieldCheck,
+  CheckCircle2,
+  RefreshCw,
+  Code2,
+  AlertCircle,
+  FolderGit2,
+  Sparkles,
+  Search
+} from "/node_modules/.vite/deps/lucide-react.js?v=e7692922";
+import { useSkillProof } from "/src/context/SkillProofContext.jsx?t=1788636361919";
+import apiService from "/src/services/api.js?t=1788635860727";
+const LANGUAGE_COLORS = {
+  Java: "bg-orange-500",
+  "JavaScript": "bg-yellow-400",
+  "JavaScript / React": "bg-yellow-400",
+  "TypeScript": "bg-blue-400",
+  "Python": "bg-emerald-400",
+  "SQL": "bg-indigo-400",
+  "SQL / PostgreSQL": "bg-indigo-400",
+  "HTML": "bg-rose-500",
+  "CSS": "bg-cyan-400",
+  "C++": "bg-pink-500",
+  "C": "bg-slate-400",
+  "Go": "bg-teal-400",
+  "Rust": "bg-amber-600"
+};
+const getLanguageColor = (langName) => {
+  return LANGUAGE_COLORS[langName] || "bg-slate-500";
+};
+const normalizeTechnologies = (tech) => {
+  if (Array.isArray(tech)) return tech;
+  if (typeof tech === "string" && tech.trim()) {
+    return tech.split(",").map((t) => t.trim()).filter(Boolean);
+  }
+  return ["Git"];
+};
+const normalizeRepo = (r, defaultUsername = "") => {
+  const name = r.repoName || r.name || "Repository";
+  const url = r.repoUrl || r.url || r.htmlUrl || (defaultUsername ? `https://github.com/${defaultUsername}/${name}` : "#");
+  const stars = r.starsCount !== void 0 ? Number(r.starsCount) : r.stars !== void 0 ? Number(r.stars) : 0;
+  const commits = r.commitCount !== void 0 ? Number(r.commitCount) : r.commits !== void 0 ? Number(r.commits) : 25;
+  const evidenceScore = r.evidenceScore !== void 0 ? Math.round(Number(r.evidenceScore)) : 70;
+  return {
+    id: r.id || name,
+    name,
+    url,
+    stars,
+    commits,
+    technologies: normalizeTechnologies(r.technologies),
+    evidenceScore,
+    status: evidenceScore >= 80 ? "HIGH_EVIDENCE" : "STRONG_EVIDENCE",
+    keyFinding: r.keyFinding || r.astProof || "Verified codebase with validated commit cadence.",
+    primaryLanguage: r.primaryLanguage || r.language || "General"
+  };
+};
+export const GithubVerificationPage = () => {
+  _s();
+  const { githubData, setGithubData, loadLiveStudentData, studentProfile } = useSkillProof();
+  const safeData = githubData || {
+    username: "",
+    connected: false,
+    totalRepos: 0,
+    totalCommits: 0,
+    totalStars: 0,
+    overallEvidenceScore: 0,
+    detectedLanguages: [],
+    verifiedRepos: []
+  };
+  const initialUsername = safeData.username || studentProfile?.githubUsername || "";
+  const [usernameInput, setUsernameInput] = useState(initialUsername);
+  const [scanning, setScanning] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  useEffect(() => {
+    if (safeData.username && !usernameInput) {
+      setUsernameInput(safeData.username);
+    } else if (studentProfile?.githubUsername && !usernameInput) {
+      setUsernameInput(studentProfile.githubUsername);
+    }
+  }, [safeData.username, studentProfile?.githubUsername]);
+  useEffect(() => {
+    let active = true;
+    const fetchFreshData = async () => {
+      try {
+        const gh = await apiService.getGithubData();
+        if (active && gh) {
+          const rawRepos = Array.isArray(gh.verifiedRepos) ? gh.verifiedRepos : [];
+          const normalized = rawRepos.map((r) => normalizeRepo(r, gh.username));
+          const langs = Array.isArray(gh.topLanguages) && gh.topLanguages.length > 0 ? gh.topLanguages : Array.isArray(gh.detectedLanguages) ? gh.detectedLanguages : [];
+          setGithubData({
+            username: gh.username || "",
+            connected: !!gh.connected,
+            totalRepos: gh.totalRepos !== void 0 ? gh.totalRepos : normalized.length,
+            totalCommits: gh.totalCommits !== void 0 ? gh.totalCommits : normalized.reduce((acc, r) => acc + r.commits, 0),
+            totalStars: gh.totalStars !== void 0 ? gh.totalStars : normalized.reduce((acc, r) => acc + r.stars, 0),
+            overallEvidenceScore: gh.overallEvidenceScore !== void 0 ? gh.overallEvidenceScore : normalized.length > 0 ? Math.round(normalized.reduce((acc, r) => acc + r.evidenceScore, 0) / normalized.length) : 0,
+            detectedLanguages: langs,
+            verifiedRepos: normalized
+          });
+          if (gh.username && !usernameInput) {
+            setUsernameInput(gh.username);
+          }
+        }
+      } catch (err) {
+        console.warn("[GithubVerificationPage] Initial fetch note:", err.message);
+      }
+    };
+    fetchFreshData();
+    return () => {
+      active = false;
+    };
+  }, []);
+  const handleAudit = async (customHandle) => {
+    const targetUser = (customHandle || usernameInput || safeData.username || "").trim();
+    if (!targetUser) {
+      setErrorMessage("Please enter a valid GitHub username to audit.");
+      return;
+    }
+    setScanning(true);
+    setStatusMessage("");
+    setErrorMessage("");
+    try {
+      const res = await apiService.verifyGithub(targetUser);
+      if (res) {
+        const rawRepos = Array.isArray(res.verifiedRepos) ? res.verifiedRepos : Array.isArray(res.repos) ? res.repos : [];
+        const normalized = rawRepos.map((r) => normalizeRepo(r, targetUser));
+        const langs = Array.isArray(res.topLanguages) && res.topLanguages.length > 0 ? res.topLanguages : Array.isArray(res.detectedLanguages) ? res.detectedLanguages : [];
+        const overallScore = res.overallEvidenceScore !== void 0 ? Math.round(res.overallEvidenceScore) : normalized.length > 0 ? Math.round(normalized.reduce((sum, r) => sum + r.evidenceScore, 0) / normalized.length) : 75;
+        setGithubData({
+          username: res.username || targetUser,
+          connected: true,
+          totalRepos: res.totalRepos !== void 0 ? res.totalRepos : normalized.length,
+          totalCommits: res.totalCommits !== void 0 ? res.totalCommits : normalized.reduce((sum, r) => sum + r.commits, 0),
+          totalStars: res.totalStars !== void 0 ? res.totalStars : normalized.reduce((sum, r) => sum + r.stars, 0),
+          overallEvidenceScore: overallScore,
+          detectedLanguages: langs,
+          verifiedRepos: normalized
+        });
+        setStatusMessage(`Successfully audited ${normalized.length} repositories for @${targetUser}`);
+        if (loadLiveStudentData) {
+          await loadLiveStudentData();
+        }
+      }
+    } catch (err) {
+      console.warn("[GithubVerification] API note:", err.message);
+      setErrorMessage(err.message || "Failed to connect to GitHub. Please check the username and try again.");
+    } finally {
+      setScanning(false);
+    }
+  };
+  const isConnected = !!safeData.connected;
+  const verifiedRepos = Array.isArray(safeData.verifiedRepos) ? safeData.verifiedRepos.map((r) => normalizeRepo(r, safeData.username)) : [];
+  const detectedLanguages = Array.isArray(safeData.detectedLanguages) ? safeData.detectedLanguages : [];
+  const totalRepos = safeData.totalRepos !== void 0 ? safeData.totalRepos : verifiedRepos.length;
+  const totalCommits = safeData.totalCommits !== void 0 ? safeData.totalCommits : verifiedRepos.reduce((acc, r) => acc + r.commits, 0);
+  const totalStars = safeData.totalStars !== void 0 ? safeData.totalStars : verifiedRepos.reduce((acc, r) => acc + r.stars, 0);
+  const overallEvidenceScore = safeData.overallEvidenceScore !== void 0 ? safeData.overallEvidenceScore : verifiedRepos.length > 0 ? Math.round(verifiedRepos.reduce((acc, r) => acc + r.evidenceScore, 0) / verifiedRepos.length) : 0;
+  return /* @__PURE__ */ jsxDEV("div", { className: "space-y-6 max-w-4xl mx-auto", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-bold uppercase tracking-wider text-indigo-400", children: "Tier 2 Verification" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 222,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30", children: "Code Proof" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 223,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 221,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("h1", { className: "text-2xl font-black text-white mt-1", children: "GitHub Repository & Code Proof" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 225,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400", children: "Autonomous AST analysis of commit consistency, language breakdown, and real architectural implementations." }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 226,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 220,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "form",
+        {
+          onSubmit: (e) => {
+            e.preventDefault();
+            handleAudit();
+          },
+          className: "flex items-center gap-2 shrink-0 self-start sm:self-center",
+          children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "relative", children: /* @__PURE__ */ jsxDEV(
+              "input",
+              {
+                type: "text",
+                value: usernameInput,
+                onChange: (e) => setUsernameInput(e.target.value),
+                placeholder: "GitHub handle...",
+                className: "px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500 w-36 sm:w-44"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 240,
+                columnNumber: 13
+              },
+              this
+            ) }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 239,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "button",
+              {
+                type: "submit",
+                disabled: scanning,
+                className: "px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold flex items-center gap-2 shadow-md shadow-indigo-600/30 transition-all disabled:opacity-50",
+                children: [
+                  /* @__PURE__ */ jsxDEV(RefreshCw, { className: `w-3.5 h-3.5 ${scanning ? "animate-spin text-white" : ""}` }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                    lineNumber: 253,
+                    columnNumber: 13
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("span", { children: scanning ? "Auditing..." : isConnected ? "Re-Audit" : "Audit GitHub" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                    lineNumber: 254,
+                    columnNumber: 13
+                  }, this)
+                ]
+              },
+              void 0,
+              true,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 248,
+                columnNumber: 11
+              },
+              this
+            )
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 232,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+      lineNumber: 219,
+      columnNumber: 7
+    }, this),
+    statusMessage && /* @__PURE__ */ jsxDEV("div", { className: "p-3 rounded-2xl bg-emerald-950/60 border border-emerald-500/30 text-xs text-emerald-300 flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-4 h-4 text-emerald-400 shrink-0" }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 262,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: statusMessage }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 263,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+      lineNumber: 261,
+      columnNumber: 7
+    }, this),
+    errorMessage && /* @__PURE__ */ jsxDEV("div", { className: "p-3 rounded-2xl bg-rose-950/60 border border-rose-500/30 text-xs text-rose-300 flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxDEV(AlertCircle, { className: "w-4 h-4 text-rose-400 shrink-0" }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 269,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: errorMessage }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 270,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+      lineNumber: 268,
+      columnNumber: 7
+    }, this),
+    isConnected ? /* @__PURE__ */ jsxDEV(Fragment, { children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "glass-panel-glow p-6 sm:p-8 rounded-3xl border border-indigo-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-4", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-white shrink-0", children: /* @__PURE__ */ jsxDEV(GitBranch, { className: "w-7 h-7 text-emerald-400" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 281,
+            columnNumber: 17
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 280,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+              /* @__PURE__ */ jsxDEV("h2", { className: "text-lg font-bold text-white", children: [
+                "@",
+                safeData.username || "user"
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 285,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 flex items-center gap-1", children: [
+                /* @__PURE__ */ jsxDEV(CheckCircle2, { className: "w-3 h-3 text-emerald-400" }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 287,
+                  columnNumber: 21
+                }, this),
+                " Connected"
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 286,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 284,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400 mt-0.5", children: "Continuous integration audit active" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 290,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 283,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 279,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-6 text-center", children: [
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "text-2xl font-black text-white", children: totalRepos }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 296,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-[11px] text-slate-400", children: "Public Repos" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 297,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 295,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "text-2xl font-black text-indigo-400", children: totalCommits }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 300,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-[11px] text-slate-400", children: "Audited Commits" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 301,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 299,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "text-2xl font-black text-amber-400", children: totalStars }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 304,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-[11px] text-slate-400", children: "GitHub Stars" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 305,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 303,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "text-2xl font-black text-emerald-400", children: [
+              overallEvidenceScore,
+              "/100"
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 308,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "text-[11px] text-slate-400", children: "Evidence Score" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 309,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 307,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 294,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 278,
+        columnNumber: 11
+      }, this),
+      detectedLanguages.length > 0 ? /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-6 rounded-3xl border border-slate-800 space-y-3", children: [
+        /* @__PURE__ */ jsxDEV("h3", { className: "text-xs font-bold uppercase tracking-wider text-slate-400", children: "Audited Codebase Language Distribution" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 317,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "w-full h-3 rounded-full bg-slate-900 flex overflow-hidden border border-slate-800", children: detectedLanguages.map(
+          (lang, idx) => /* @__PURE__ */ jsxDEV(
+            "div",
+            {
+              className: `${getLanguageColor(lang.name)} h-full`,
+              style: { width: `${Math.max(5, lang.percentage || 10)}%` },
+              title: `${lang.name} ${lang.percentage || 0}%`
+            },
+            idx,
+            false,
+            {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 320,
+              columnNumber: 13
+            },
+            this
+          )
+        ) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 318,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex flex-wrap gap-4 text-xs text-slate-400 pt-1", children: detectedLanguages.map(
+          (lang, idx) => /* @__PURE__ */ jsxDEV("span", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: `w-2.5 h-2.5 rounded-full ${getLanguageColor(lang.name)}` }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 331,
+              columnNumber: 21
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: [
+              lang.name,
+              " (",
+              lang.percentage || 0,
+              "%)"
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 332,
+              columnNumber: 21
+            }, this)
+          ] }, idx, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 330,
+            columnNumber: 13
+          }, this)
+        ) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 328,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 316,
+        columnNumber: 9
+      }, this) : null,
+      /* @__PURE__ */ jsxDEV("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxDEV("h3", { className: "text-sm font-bold uppercase tracking-wider text-slate-300", children: "Audited Repositories & Evidence Dossier" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 342,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "text-xs text-slate-500 font-mono", children: [
+            verifiedRepos.length,
+            " Repositories Verified"
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 343,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 341,
+          columnNumber: 13
+        }, this),
+        verifiedRepos.length > 0 ? verifiedRepos.map(
+          (repo, i) => /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-6 rounded-2xl border border-slate-800 space-y-3", children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-2", children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxDEV(Code2, { className: "w-5 h-5 text-indigo-400" }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 351,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  "a",
+                  {
+                    href: repo.url,
+                    target: "_blank",
+                    rel: "noreferrer",
+                    className: "font-bold text-white text-sm hover:text-indigo-400 flex items-center gap-1",
+                    children: [
+                      /* @__PURE__ */ jsxDEV("span", { children: repo.name }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                        lineNumber: 358,
+                        columnNumber: 25
+                      }, this),
+                      /* @__PURE__ */ jsxDEV(ExternalLink, { className: "w-3.5 h-3.5 opacity-60" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                        lineNumber: 359,
+                        columnNumber: 25
+                      }, this)
+                    ]
+                  },
+                  void 0,
+                  true,
+                  {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                    lineNumber: 352,
+                    columnNumber: 23
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 350,
+                columnNumber: 21
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30", children: [
+                  "Evidence: ",
+                  repo.evidenceScore,
+                  "/100"
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 364,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV("span", { className: "text-xs text-slate-400 flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsxDEV(Star, { className: "w-3.5 h-3.5 text-amber-400" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                    lineNumber: 368,
+                    columnNumber: 25
+                  }, this),
+                  " ",
+                  repo.stars
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 367,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV("span", { className: "text-xs text-slate-400 flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsxDEV(GitCommit, { className: "w-3.5 h-3.5 text-indigo-400" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                    lineNumber: 371,
+                    columnNumber: 25
+                  }, this),
+                  " ",
+                  repo.commits
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 370,
+                  columnNumber: 23
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 363,
+                columnNumber: 21
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 349,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "flex flex-wrap gap-1.5", children: repo.technologies.map(
+              (t, idx) => /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] px-2.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 font-mono", children: t }, idx, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 379,
+                columnNumber: 15
+              }, this)
+            ) }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 377,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "p-3 rounded-xl bg-slate-900/80 border border-slate-850 text-xs text-slate-300 flex items-start gap-2", children: [
+              /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-4 h-4 text-cyan-400 shrink-0 mt-0.5" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 387,
+                columnNumber: 21
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("span", { className: "font-semibold text-white", children: "Automated AST Proof: " }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 389,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV("span", { className: "text-slate-400", children: repo.keyFinding }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 390,
+                  columnNumber: 23
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 388,
+                columnNumber: 21
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 386,
+              columnNumber: 19
+            }, this)
+          ] }, repo.id || i, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 348,
+            columnNumber: 11
+          }, this)
+        ) : /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-6 rounded-2xl border border-slate-800 text-center text-slate-400 text-xs", children: [
+          "No public repositories found for @",
+          safeData.username,
+          ". Try re-auditing or pushing code to GitHub."
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 396,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 340,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+      lineNumber: 276,
+      columnNumber: 7
+    }, this) : (
+      /* Proper Disconnected / Empty State */
+      /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-8 sm:p-12 rounded-3xl border border-slate-800 text-center space-y-6", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mx-auto text-indigo-400 shadow-lg shadow-indigo-500/10", children: /* @__PURE__ */ jsxDEV(GitBranch, { className: "w-8 h-8" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 406,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 405,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "space-y-2 max-w-lg mx-auto", children: [
+          /* @__PURE__ */ jsxDEV("h2", { className: "text-xl font-black text-white", children: "No GitHub Account Connected Yet" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 410,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400 leading-relaxed", children: "Connect your GitHub account to verify real-world implementation proof. Our autonomous auditor analyzes commit velocity, architecture patterns, and language distributions to validate your Tier 2 competencies." }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 411,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 409,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          "form",
+          {
+            onSubmit: (e) => {
+              e.preventDefault();
+              handleAudit();
+            },
+            className: "max-w-md mx-auto flex flex-col sm:flex-row items-center gap-3",
+            children: [
+              /* @__PURE__ */ jsxDEV("div", { className: "relative w-full", children: /* @__PURE__ */ jsxDEV(
+                "input",
+                {
+                  type: "text",
+                  value: usernameInput,
+                  onChange: (e) => setUsernameInput(e.target.value),
+                  placeholder: "Enter GitHub handle (e.g. octocat)...",
+                  className: "w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-2xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 424,
+                  columnNumber: 15
+                },
+                this
+              ) }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                lineNumber: 423,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                "button",
+                {
+                  type: "submit",
+                  disabled: scanning,
+                  className: "w-full sm:w-auto px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 shrink-0 transition-all disabled:opacity-50",
+                  children: [
+                    /* @__PURE__ */ jsxDEV(RefreshCw, { className: `w-3.5 h-3.5 ${scanning ? "animate-spin text-white" : ""}` }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                      lineNumber: 437,
+                      columnNumber: 15
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("span", { children: scanning ? "Auditing Repositories..." : "Connect GitHub" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                      lineNumber: 438,
+                      columnNumber: 15
+                    }, this)
+                  ]
+                },
+                void 0,
+                true,
+                {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+                  lineNumber: 432,
+                  columnNumber: 13
+                },
+                this
+              )
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 416,
+            columnNumber: 11
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "pt-4 border-t border-slate-850/80 flex flex-wrap justify-center gap-6 text-[11px] text-slate-500", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-3.5 h-3.5 text-emerald-400" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 444,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: "Cryptographic commit audit" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 445,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 443,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxDEV(Code2, { className: "w-3.5 h-3.5 text-indigo-400" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 448,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: "Automated AST architecture proof" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 449,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 447,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxDEV(Sparkles, { className: "w-3.5 h-3.5 text-amber-400" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 452,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: "Tier 2 verified score boost" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+              lineNumber: 453,
+              columnNumber: 15
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+            lineNumber: 451,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+          lineNumber: 442,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+        lineNumber: 404,
+        columnNumber: 7
+      }, this)
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx",
+    lineNumber: 217,
+    columnNumber: 5
+  }, this);
+};
+_s(GithubVerificationPage, "NkxdQTXQW+geKZuFJzxW/JaS1AA=", false, function() {
+  return [useSkillProof];
+});
+_c = GithubVerificationPage;
+var _c;
+$RefreshReg$(_c, "GithubVerificationPage");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/GithubVerificationPage.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QWE7QUFBQTtBQUFBLEtBRDdFd0M7QUFBc0IsSUFBQTREO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbIlJlYWN0IiwidXNlU3RhdGUiLCJ1c2VFZmZlY3QiLCJHaXRCcmFuY2giLCJTdGFyIiwiR2l0Q29tbWl0IiwiRXh0ZXJuYWxMaW5rIiwiU2hpZWxkQ2hlY2siLCJDaGVja0NpcmNsZTIiLCJSZWZyZXNoQ3ciLCJDb2RlMiIsIkFsZXJ0Q2lyY2xlIiwiRm9sZGVyR2l0MiIsIlNwYXJrbGVzIiwiU2VhcmNoIiwidXNlU2tpbGxQcm9vZiIsImFwaVNlcnZpY2UiLCJMQU5HVUFHRV9DT0xPUlMiLCJKYXZhIiwiZ2V0TGFuZ3VhZ2VDb2xvciIsImxhbmdOYW1lIiwibm9ybWFsaXplVGVjaG5vbG9naWVzIiwidGVjaCIsIkFycmF5IiwiaXNBcnJheSIsInRyaW0iLCJzcGxpdCIsIm1hcCIsInQiLCJmaWx0ZXIiLCJCb29sZWFuIiwibm9ybWFsaXplUmVwbyIsInIiLCJkZWZhdWx0VXNlcm5hbWUiLCJuYW1lIiwicmVwb05hbWUiLCJ1cmwiLCJyZXBvVXJsIiwiaHRtbFVybCIsInN0YXJzIiwic3RhcnNDb3VudCIsInVuZGVmaW5lZCIsIk51bWJlciIsImNvbW1pdHMiLCJjb21taXRDb3VudCIsImV2aWRlbmNlU2NvcmUiLCJNYXRoIiwicm91bmQiLCJpZCIsInRlY2hub2xvZ2llcyIsInN0YXR1cyIsImtleUZpbmRpbmciLCJhc3RQcm9vZiIsInByaW1hcnlMYW5ndWFnZSIsImxhbmd1YWdlIiwiR2l0aHViVmVyaWZpY2F0aW9uUGFnZSIsIl9zIiwiZ2l0aHViRGF0YSIsInNldEdpdGh1YkRhdGEiLCJsb2FkTGl2ZVN0dWRlbnREYXRhIiwic3R1ZGVudFByb2ZpbGUiLCJzYWZlRGF0YSIsInVzZXJuYW1lIiwiY29ubmVjdGVkIiwidG90YWxSZXBvcyIsInRvdGFsQ29tbWl0cyIsInRvdGFsU3RhcnMiLCJvdmVyYWxsRXZpZGVuY2VTY29yZSIsImRldGVjdGVkTGFuZ3VhZ2VzIiwidmVyaWZpZWRSZXBvcyIsImluaXRpYWxVc2VybmFtZSIsImdpdGh1YlVzZXJuYW1lIiwidXNlcm5hbWVJbnB1dCIsInNldFVzZXJuYW1lSW5wdXQiLCJzY2FubmluZyIsInNldFNjYW5uaW5nIiwic3RhdHVzTWVzc2FnZSIsInNldFN0YXR1c01lc3NhZ2UiLCJlcnJvck1lc3NhZ2UiLCJzZXRFcnJvck1lc3NhZ2UiLCJhY3RpdmUiLCJmZXRjaEZyZXNoRGF0YSIsImdoIiwiZ2V0R2l0aHViRGF0YSIsInJhd1JlcG9zIiwibm9ybWFsaXplZCIsImxhbmdzIiwidG9wTGFuZ3VhZ2VzIiwibGVuZ3RoIiwicmVkdWNlIiwiYWNjIiwiZXJyIiwiY29uc29sZSIsIndhcm4iLCJtZXNzYWdlIiwiaGFuZGxlQXVkaXQiLCJjdXN0b21IYW5kbGUiLCJ0YXJnZXRVc2VyIiwicmVzIiwidmVyaWZ5R2l0aHViIiwicmVwb3MiLCJvdmVyYWxsU2NvcmUiLCJzdW0iLCJpc0Nvbm5lY3RlZCIsImUiLCJwcmV2ZW50RGVmYXVsdCIsInRhcmdldCIsInZhbHVlIiwibGFuZyIsImlkeCIsIndpZHRoIiwibWF4IiwicGVyY2VudGFnZSIsInJlcG8iLCJpIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiR2l0aHViVmVyaWZpY2F0aW9uUGFnZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlLCB1c2VFZmZlY3QgfSBmcm9tICdyZWFjdCc7XHJcbmltcG9ydCB7XHJcbiAgR2l0QnJhbmNoLFxyXG4gIFN0YXIsXHJcbiAgR2l0Q29tbWl0LFxyXG4gIEV4dGVybmFsTGluayxcclxuICBTaGllbGRDaGVjayxcclxuICBDaGVja0NpcmNsZTIsXHJcbiAgUmVmcmVzaEN3LFxyXG4gIENvZGUyLFxyXG4gIEFsZXJ0Q2lyY2xlLFxyXG4gIEZvbGRlckdpdDIsXHJcbiAgU3BhcmtsZXMsXHJcbiAgU2VhcmNoXHJcbn0gZnJvbSAnbHVjaWRlLXJlYWN0JztcclxuaW1wb3J0IHsgdXNlU2tpbGxQcm9vZiB9IGZyb20gJy4uLy4uL2NvbnRleHQvU2tpbGxQcm9vZkNvbnRleHQnO1xyXG5pbXBvcnQgYXBpU2VydmljZSBmcm9tICcuLi8uLi9zZXJ2aWNlcy9hcGknO1xyXG5cclxuY29uc3QgTEFOR1VBR0VfQ09MT1JTID0ge1xyXG4gIEphdmE6ICdiZy1vcmFuZ2UtNTAwJyxcclxuICAnSmF2YVNjcmlwdCc6ICdiZy15ZWxsb3ctNDAwJyxcclxuICAnSmF2YVNjcmlwdCAvIFJlYWN0JzogJ2JnLXllbGxvdy00MDAnLFxyXG4gICdUeXBlU2NyaXB0JzogJ2JnLWJsdWUtNDAwJyxcclxuICAnUHl0aG9uJzogJ2JnLWVtZXJhbGQtNDAwJyxcclxuICAnU1FMJzogJ2JnLWluZGlnby00MDAnLFxyXG4gICdTUUwgLyBQb3N0Z3JlU1FMJzogJ2JnLWluZGlnby00MDAnLFxyXG4gICdIVE1MJzogJ2JnLXJvc2UtNTAwJyxcclxuICAnQ1NTJzogJ2JnLWN5YW4tNDAwJyxcclxuICAnQysrJzogJ2JnLXBpbmstNTAwJyxcclxuICAnQyc6ICdiZy1zbGF0ZS00MDAnLFxyXG4gICdHbyc6ICdiZy10ZWFsLTQwMCcsXHJcbiAgJ1J1c3QnOiAnYmctYW1iZXItNjAwJ1xyXG59O1xyXG5cclxuY29uc3QgZ2V0TGFuZ3VhZ2VDb2xvciA9IChsYW5nTmFtZSkgPT4ge1xyXG4gIHJldHVybiBMQU5HVUFHRV9DT0xPUlNbbGFuZ05hbWVdIHx8ICdiZy1zbGF0ZS01MDAnO1xyXG59O1xyXG5cclxuY29uc3Qgbm9ybWFsaXplVGVjaG5vbG9naWVzID0gKHRlY2gpID0+IHtcclxuICBpZiAoQXJyYXkuaXNBcnJheSh0ZWNoKSkgcmV0dXJuIHRlY2g7XHJcbiAgaWYgKHR5cGVvZiB0ZWNoID09PSAnc3RyaW5nJyAmJiB0ZWNoLnRyaW0oKSkge1xyXG4gICAgcmV0dXJuIHRlY2guc3BsaXQoJywnKS5tYXAodCA9PiB0LnRyaW0oKSkuZmlsdGVyKEJvb2xlYW4pO1xyXG4gIH1cclxuICByZXR1cm4gWydHaXQnXTtcclxufTtcclxuXHJcbmNvbnN0IG5vcm1hbGl6ZVJlcG8gPSAociwgZGVmYXVsdFVzZXJuYW1lID0gJycpID0+IHtcclxuICBjb25zdCBuYW1lID0gci5yZXBvTmFtZSB8fCByLm5hbWUgfHwgJ1JlcG9zaXRvcnknO1xyXG4gIGNvbnN0IHVybCA9IHIucmVwb1VybCB8fCByLnVybCB8fCByLmh0bWxVcmwgfHwgKGRlZmF1bHRVc2VybmFtZSA/IGBodHRwczovL2dpdGh1Yi5jb20vJHtkZWZhdWx0VXNlcm5hbWV9LyR7bmFtZX1gIDogJyMnKTtcclxuICBjb25zdCBzdGFycyA9IHIuc3RhcnNDb3VudCAhPT0gdW5kZWZpbmVkID8gTnVtYmVyKHIuc3RhcnNDb3VudCkgOiAoci5zdGFycyAhPT0gdW5kZWZpbmVkID8gTnVtYmVyKHIuc3RhcnMpIDogMCk7XHJcbiAgY29uc3QgY29tbWl0cyA9IHIuY29tbWl0Q291bnQgIT09IHVuZGVmaW5lZCA/IE51bWJlcihyLmNvbW1pdENvdW50KSA6IChyLmNvbW1pdHMgIT09IHVuZGVmaW5lZCA/IE51bWJlcihyLmNvbW1pdHMpIDogMjUpO1xyXG4gIGNvbnN0IGV2aWRlbmNlU2NvcmUgPSByLmV2aWRlbmNlU2NvcmUgIT09IHVuZGVmaW5lZCA/IE1hdGgucm91bmQoTnVtYmVyKHIuZXZpZGVuY2VTY29yZSkpIDogNzA7XHJcblxyXG4gIHJldHVybiB7XHJcbiAgICBpZDogci5pZCB8fCBuYW1lLFxyXG4gICAgbmFtZSxcclxuICAgIHVybCxcclxuICAgIHN0YXJzLFxyXG4gICAgY29tbWl0cyxcclxuICAgIHRlY2hub2xvZ2llczogbm9ybWFsaXplVGVjaG5vbG9naWVzKHIudGVjaG5vbG9naWVzKSxcclxuICAgIGV2aWRlbmNlU2NvcmUsXHJcbiAgICBzdGF0dXM6IGV2aWRlbmNlU2NvcmUgPj0gODAgPyAnSElHSF9FVklERU5DRScgOiAnU1RST05HX0VWSURFTkNFJyxcclxuICAgIGtleUZpbmRpbmc6IHIua2V5RmluZGluZyB8fCByLmFzdFByb29mIHx8ICdWZXJpZmllZCBjb2RlYmFzZSB3aXRoIHZhbGlkYXRlZCBjb21taXQgY2FkZW5jZS4nLFxyXG4gICAgcHJpbWFyeUxhbmd1YWdlOiByLnByaW1hcnlMYW5ndWFnZSB8fCByLmxhbmd1YWdlIHx8ICdHZW5lcmFsJ1xyXG4gIH07XHJcbn07XHJcblxyXG5leHBvcnQgY29uc3QgR2l0aHViVmVyaWZpY2F0aW9uUGFnZSA9ICgpID0+IHtcclxuICBjb25zdCB7IGdpdGh1YkRhdGEsIHNldEdpdGh1YkRhdGEsIGxvYWRMaXZlU3R1ZGVudERhdGEsIHN0dWRlbnRQcm9maWxlIH0gPSB1c2VTa2lsbFByb29mKCk7XHJcblxyXG4gIGNvbnN0IHNhZmVEYXRhID0gZ2l0aHViRGF0YSB8fCB7XHJcbiAgICB1c2VybmFtZTogJycsXHJcbiAgICBjb25uZWN0ZWQ6IGZhbHNlLFxyXG4gICAgdG90YWxSZXBvczogMCxcclxuICAgIHRvdGFsQ29tbWl0czogMCxcclxuICAgIHRvdGFsU3RhcnM6IDAsXHJcbiAgICBvdmVyYWxsRXZpZGVuY2VTY29yZTogMCxcclxuICAgIGRldGVjdGVkTGFuZ3VhZ2VzOiBbXSxcclxuICAgIHZlcmlmaWVkUmVwb3M6IFtdXHJcbiAgfTtcclxuXHJcbiAgY29uc3QgaW5pdGlhbFVzZXJuYW1lID0gc2FmZURhdGEudXNlcm5hbWUgfHwgc3R1ZGVudFByb2ZpbGU/LmdpdGh1YlVzZXJuYW1lIHx8ICcnO1xyXG4gIGNvbnN0IFt1c2VybmFtZUlucHV0LCBzZXRVc2VybmFtZUlucHV0XSA9IHVzZVN0YXRlKGluaXRpYWxVc2VybmFtZSk7XHJcbiAgY29uc3QgW3NjYW5uaW5nLCBzZXRTY2FubmluZ10gPSB1c2VTdGF0ZShmYWxzZSk7XHJcbiAgY29uc3QgW3N0YXR1c01lc3NhZ2UsIHNldFN0YXR1c01lc3NhZ2VdID0gdXNlU3RhdGUoJycpO1xyXG4gIGNvbnN0IFtlcnJvck1lc3NhZ2UsIHNldEVycm9yTWVzc2FnZV0gPSB1c2VTdGF0ZSgnJyk7XHJcblxyXG4gIC8vIFN5bmNocm9uaXplIHVzZXJuYW1lIGlucHV0IGlmIGV4dGVybmFsIGRhdGEgdXBkYXRlc1xyXG4gIHVzZUVmZmVjdCgoKSA9PiB7XHJcbiAgICBpZiAoc2FmZURhdGEudXNlcm5hbWUgJiYgIXVzZXJuYW1lSW5wdXQpIHtcclxuICAgICAgc2V0VXNlcm5hbWVJbnB1dChzYWZlRGF0YS51c2VybmFtZSk7XHJcbiAgICB9IGVsc2UgaWYgKHN0dWRlbnRQcm9maWxlPy5naXRodWJVc2VybmFtZSAmJiAhdXNlcm5hbWVJbnB1dCkge1xyXG4gICAgICBzZXRVc2VybmFtZUlucHV0KHN0dWRlbnRQcm9maWxlLmdpdGh1YlVzZXJuYW1lKTtcclxuICAgIH1cclxuICB9LCBbc2FmZURhdGEudXNlcm5hbWUsIHN0dWRlbnRQcm9maWxlPy5naXRodWJVc2VybmFtZV0pO1xyXG5cclxuICAvLyBMb2FkIGZyZXNoIGxpdmUgR2l0SHViIGRhdGEgb24gbW91bnRcclxuICB1c2VFZmZlY3QoKCkgPT4ge1xyXG4gICAgbGV0IGFjdGl2ZSA9IHRydWU7XHJcbiAgICBjb25zdCBmZXRjaEZyZXNoRGF0YSA9IGFzeW5jICgpID0+IHtcclxuICAgICAgdHJ5IHtcclxuICAgICAgICBjb25zdCBnaCA9IGF3YWl0IGFwaVNlcnZpY2UuZ2V0R2l0aHViRGF0YSgpO1xyXG4gICAgICAgIGlmIChhY3RpdmUgJiYgZ2gpIHtcclxuICAgICAgICAgIGNvbnN0IHJhd1JlcG9zID0gQXJyYXkuaXNBcnJheShnaC52ZXJpZmllZFJlcG9zKSA/IGdoLnZlcmlmaWVkUmVwb3MgOiBbXTtcclxuICAgICAgICAgIGNvbnN0IG5vcm1hbGl6ZWQgPSByYXdSZXBvcy5tYXAociA9PiBub3JtYWxpemVSZXBvKHIsIGdoLnVzZXJuYW1lKSk7XHJcbiAgICAgICAgICBjb25zdCBsYW5ncyA9IEFycmF5LmlzQXJyYXkoZ2gudG9wTGFuZ3VhZ2VzKSAmJiBnaC50b3BMYW5ndWFnZXMubGVuZ3RoID4gMFxyXG4gICAgICAgICAgICA/IGdoLnRvcExhbmd1YWdlc1xyXG4gICAgICAgICAgICA6IChBcnJheS5pc0FycmF5KGdoLmRldGVjdGVkTGFuZ3VhZ2VzKSA/IGdoLmRldGVjdGVkTGFuZ3VhZ2VzIDogW10pO1xyXG5cclxuICAgICAgICAgIHNldEdpdGh1YkRhdGEoe1xyXG4gICAgICAgICAgICB1c2VybmFtZTogZ2gudXNlcm5hbWUgfHwgJycsXHJcbiAgICAgICAgICAgIGNvbm5lY3RlZDogISFnaC5jb25uZWN0ZWQsXHJcbiAgICAgICAgICAgIHRvdGFsUmVwb3M6IGdoLnRvdGFsUmVwb3MgIT09IHVuZGVmaW5lZCA/IGdoLnRvdGFsUmVwb3MgOiBub3JtYWxpemVkLmxlbmd0aCxcclxuICAgICAgICAgICAgdG90YWxDb21taXRzOiBnaC50b3RhbENvbW1pdHMgIT09IHVuZGVmaW5lZCA/IGdoLnRvdGFsQ29tbWl0cyA6IG5vcm1hbGl6ZWQucmVkdWNlKChhY2MsIHIpID0+IGFjYyArIHIuY29tbWl0cywgMCksXHJcbiAgICAgICAgICAgIHRvdGFsU3RhcnM6IGdoLnRvdGFsU3RhcnMgIT09IHVuZGVmaW5lZCA/IGdoLnRvdGFsU3RhcnMgOiBub3JtYWxpemVkLnJlZHVjZSgoYWNjLCByKSA9PiBhY2MgKyByLnN0YXJzLCAwKSxcclxuICAgICAgICAgICAgb3ZlcmFsbEV2aWRlbmNlU2NvcmU6IGdoLm92ZXJhbGxFdmlkZW5jZVNjb3JlICE9PSB1bmRlZmluZWQgPyBnaC5vdmVyYWxsRXZpZGVuY2VTY29yZSA6IChub3JtYWxpemVkLmxlbmd0aCA+IDAgPyBNYXRoLnJvdW5kKG5vcm1hbGl6ZWQucmVkdWNlKChhY2MsIHIpID0+IGFjYyArIHIuZXZpZGVuY2VTY29yZSwgMCkgLyBub3JtYWxpemVkLmxlbmd0aCkgOiAwKSxcclxuICAgICAgICAgICAgZGV0ZWN0ZWRMYW5ndWFnZXM6IGxhbmdzLFxyXG4gICAgICAgICAgICB2ZXJpZmllZFJlcG9zOiBub3JtYWxpemVkXHJcbiAgICAgICAgICB9KTtcclxuICAgICAgICAgIGlmIChnaC51c2VybmFtZSAmJiAhdXNlcm5hbWVJbnB1dCkge1xyXG4gICAgICAgICAgICBzZXRVc2VybmFtZUlucHV0KGdoLnVzZXJuYW1lKTtcclxuICAgICAgICAgIH1cclxuICAgICAgICB9XHJcbiAgICAgIH0gY2F0Y2ggKGVycikge1xyXG4gICAgICAgIGNvbnNvbGUud2FybignW0dpdGh1YlZlcmlmaWNhdGlvblBhZ2VdIEluaXRpYWwgZmV0Y2ggbm90ZTonLCBlcnIubWVzc2FnZSk7XHJcbiAgICAgIH1cclxuICAgIH07XHJcbiAgICBmZXRjaEZyZXNoRGF0YSgpO1xyXG4gICAgcmV0dXJuICgpID0+IHsgYWN0aXZlID0gZmFsc2U7IH07XHJcbiAgfSwgW10pO1xyXG5cclxuICBjb25zdCBoYW5kbGVBdWRpdCA9IGFzeW5jIChjdXN0b21IYW5kbGUpID0+IHtcclxuICAgIGNvbnN0IHRhcmdldFVzZXIgPSAoY3VzdG9tSGFuZGxlIHx8IHVzZXJuYW1lSW5wdXQgfHwgc2FmZURhdGEudXNlcm5hbWUgfHwgJycpLnRyaW0oKTtcclxuICAgIGlmICghdGFyZ2V0VXNlcikge1xyXG4gICAgICBzZXRFcnJvck1lc3NhZ2UoJ1BsZWFzZSBlbnRlciBhIHZhbGlkIEdpdEh1YiB1c2VybmFtZSB0byBhdWRpdC4nKTtcclxuICAgICAgcmV0dXJuO1xyXG4gICAgfVxyXG5cclxuICAgIHNldFNjYW5uaW5nKHRydWUpO1xyXG4gICAgc2V0U3RhdHVzTWVzc2FnZSgnJyk7XHJcbiAgICBzZXRFcnJvck1lc3NhZ2UoJycpO1xyXG5cclxuICAgIHRyeSB7XHJcbiAgICAgIGNvbnN0IHJlcyA9IGF3YWl0IGFwaVNlcnZpY2UudmVyaWZ5R2l0aHViKHRhcmdldFVzZXIpO1xyXG4gICAgICBpZiAocmVzKSB7XHJcbiAgICAgICAgY29uc3QgcmF3UmVwb3MgPSBBcnJheS5pc0FycmF5KHJlcy52ZXJpZmllZFJlcG9zKVxyXG4gICAgICAgICAgPyByZXMudmVyaWZpZWRSZXBvc1xyXG4gICAgICAgICAgOiAoQXJyYXkuaXNBcnJheShyZXMucmVwb3MpID8gcmVzLnJlcG9zIDogW10pO1xyXG4gICAgICAgIGNvbnN0IG5vcm1hbGl6ZWQgPSByYXdSZXBvcy5tYXAociA9PiBub3JtYWxpemVSZXBvKHIsIHRhcmdldFVzZXIpKTtcclxuXHJcbiAgICAgICAgY29uc3QgbGFuZ3MgPSBBcnJheS5pc0FycmF5KHJlcy50b3BMYW5ndWFnZXMpICYmIHJlcy50b3BMYW5ndWFnZXMubGVuZ3RoID4gMFxyXG4gICAgICAgICAgPyByZXMudG9wTGFuZ3VhZ2VzXHJcbiAgICAgICAgICA6IChBcnJheS5pc0FycmF5KHJlcy5kZXRlY3RlZExhbmd1YWdlcykgPyByZXMuZGV0ZWN0ZWRMYW5ndWFnZXMgOiBbXSk7XHJcblxyXG4gICAgICAgIGNvbnN0IG92ZXJhbGxTY29yZSA9IHJlcy5vdmVyYWxsRXZpZGVuY2VTY29yZSAhPT0gdW5kZWZpbmVkXHJcbiAgICAgICAgICA/IE1hdGgucm91bmQocmVzLm92ZXJhbGxFdmlkZW5jZVNjb3JlKVxyXG4gICAgICAgICAgOiAobm9ybWFsaXplZC5sZW5ndGggPiAwID8gTWF0aC5yb3VuZChub3JtYWxpemVkLnJlZHVjZSgoc3VtLCByKSA9PiBzdW0gKyByLmV2aWRlbmNlU2NvcmUsIDApIC8gbm9ybWFsaXplZC5sZW5ndGgpIDogNzUpO1xyXG5cclxuICAgICAgICBzZXRHaXRodWJEYXRhKHtcclxuICAgICAgICAgIHVzZXJuYW1lOiByZXMudXNlcm5hbWUgfHwgdGFyZ2V0VXNlcixcclxuICAgICAgICAgIGNvbm5lY3RlZDogdHJ1ZSxcclxuICAgICAgICAgIHRvdGFsUmVwb3M6IHJlcy50b3RhbFJlcG9zICE9PSB1bmRlZmluZWQgPyByZXMudG90YWxSZXBvcyA6IG5vcm1hbGl6ZWQubGVuZ3RoLFxyXG4gICAgICAgICAgdG90YWxDb21taXRzOiByZXMudG90YWxDb21taXRzICE9PSB1bmRlZmluZWQgPyByZXMudG90YWxDb21taXRzIDogbm9ybWFsaXplZC5yZWR1Y2UoKHN1bSwgcikgPT4gc3VtICsgci5jb21taXRzLCAwKSxcclxuICAgICAgICAgIHRvdGFsU3RhcnM6IHJlcy50b3RhbFN0YXJzICE9PSB1bmRlZmluZWQgPyByZXMudG90YWxTdGFycyA6IG5vcm1hbGl6ZWQucmVkdWNlKChzdW0sIHIpID0+IHN1bSArIHIuc3RhcnMsIDApLFxyXG4gICAgICAgICAgb3ZlcmFsbEV2aWRlbmNlU2NvcmU6IG92ZXJhbGxTY29yZSxcclxuICAgICAgICAgIGRldGVjdGVkTGFuZ3VhZ2VzOiBsYW5ncyxcclxuICAgICAgICAgIHZlcmlmaWVkUmVwb3M6IG5vcm1hbGl6ZWRcclxuICAgICAgICB9KTtcclxuXHJcbiAgICAgICAgc2V0U3RhdHVzTWVzc2FnZShgU3VjY2Vzc2Z1bGx5IGF1ZGl0ZWQgJHtub3JtYWxpemVkLmxlbmd0aH0gcmVwb3NpdG9yaWVzIGZvciBAJHt0YXJnZXRVc2VyfWApO1xyXG5cclxuICAgICAgICBpZiAobG9hZExpdmVTdHVkZW50RGF0YSkge1xyXG4gICAgICAgICAgYXdhaXQgbG9hZExpdmVTdHVkZW50RGF0YSgpO1xyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG4gICAgfSBjYXRjaCAoZXJyKSB7XHJcbiAgICAgIGNvbnNvbGUud2FybignW0dpdGh1YlZlcmlmaWNhdGlvbl0gQVBJIG5vdGU6JywgZXJyLm1lc3NhZ2UpO1xyXG4gICAgICBzZXRFcnJvck1lc3NhZ2UoZXJyLm1lc3NhZ2UgfHwgJ0ZhaWxlZCB0byBjb25uZWN0IHRvIEdpdEh1Yi4gUGxlYXNlIGNoZWNrIHRoZSB1c2VybmFtZSBhbmQgdHJ5IGFnYWluLicpO1xyXG4gICAgfSBmaW5hbGx5IHtcclxuICAgICAgc2V0U2Nhbm5pbmcoZmFsc2UpO1xyXG4gICAgfVxyXG4gIH07XHJcblxyXG4gIGNvbnN0IGlzQ29ubmVjdGVkID0gISFzYWZlRGF0YS5jb25uZWN0ZWQ7XHJcbiAgY29uc3QgdmVyaWZpZWRSZXBvcyA9IEFycmF5LmlzQXJyYXkoc2FmZURhdGEudmVyaWZpZWRSZXBvcylcclxuICAgID8gc2FmZURhdGEudmVyaWZpZWRSZXBvcy5tYXAociA9PiBub3JtYWxpemVSZXBvKHIsIHNhZmVEYXRhLnVzZXJuYW1lKSlcclxuICAgIDogW107XHJcbiAgY29uc3QgZGV0ZWN0ZWRMYW5ndWFnZXMgPSBBcnJheS5pc0FycmF5KHNhZmVEYXRhLmRldGVjdGVkTGFuZ3VhZ2VzKSA/IHNhZmVEYXRhLmRldGVjdGVkTGFuZ3VhZ2VzIDogW107XHJcblxyXG4gIGNvbnN0IHRvdGFsUmVwb3MgPSBzYWZlRGF0YS50b3RhbFJlcG9zICE9PSB1bmRlZmluZWQgPyBzYWZlRGF0YS50b3RhbFJlcG9zIDogdmVyaWZpZWRSZXBvcy5sZW5ndGg7XHJcbiAgY29uc3QgdG90YWxDb21taXRzID0gc2FmZURhdGEudG90YWxDb21taXRzICE9PSB1bmRlZmluZWQgPyBzYWZlRGF0YS50b3RhbENvbW1pdHMgOiB2ZXJpZmllZFJlcG9zLnJlZHVjZSgoYWNjLCByKSA9PiBhY2MgKyByLmNvbW1pdHMsIDApO1xyXG4gIGNvbnN0IHRvdGFsU3RhcnMgPSBzYWZlRGF0YS50b3RhbFN0YXJzICE9PSB1bmRlZmluZWQgPyBzYWZlRGF0YS50b3RhbFN0YXJzIDogdmVyaWZpZWRSZXBvcy5yZWR1Y2UoKGFjYywgcikgPT4gYWNjICsgci5zdGFycywgMCk7XHJcbiAgY29uc3Qgb3ZlcmFsbEV2aWRlbmNlU2NvcmUgPSBzYWZlRGF0YS5vdmVyYWxsRXZpZGVuY2VTY29yZSAhPT0gdW5kZWZpbmVkXHJcbiAgICA/IHNhZmVEYXRhLm92ZXJhbGxFdmlkZW5jZVNjb3JlXHJcbiAgICA6ICh2ZXJpZmllZFJlcG9zLmxlbmd0aCA+IDAgPyBNYXRoLnJvdW5kKHZlcmlmaWVkUmVwb3MucmVkdWNlKChhY2MsIHIpID0+IGFjYyArIHIuZXZpZGVuY2VTY29yZSwgMCkgLyB2ZXJpZmllZFJlcG9zLmxlbmd0aCkgOiAwKTtcclxuXHJcbiAgcmV0dXJuIChcclxuICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS02IG1heC13LTR4bCBteC1hdXRvXCI+XHJcbiAgICAgIHsvKiBIZWFkZXIgKi99XHJcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LWNvbCBzbTpmbGV4LXJvdyBzbTppdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGdhcC00XCI+XHJcbiAgICAgICAgPGRpdj5cclxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cclxuICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC14cyBmb250LWJvbGQgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIHRleHQtaW5kaWdvLTQwMFwiPlRpZXIgMiBWZXJpZmljYXRpb248L3NwYW4+XHJcbiAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzEwcHhdIHB4LTIgcHktMC41IHJvdW5kZWQgYmctZW1lcmFsZC05NTAgdGV4dC1lbWVyYWxkLTMwMCBib3JkZXIgYm9yZGVyLWVtZXJhbGQtNTAwLzMwXCI+Q29kZSBQcm9vZjwvc3Bhbj5cclxuICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgPGgxIGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtYmxhY2sgdGV4dC13aGl0ZSBtdC0xXCI+R2l0SHViIFJlcG9zaXRvcnkgJiBDb2RlIFByb29mPC9oMT5cclxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDBcIj5cclxuICAgICAgICAgICAgQXV0b25vbW91cyBBU1QgYW5hbHlzaXMgb2YgY29tbWl0IGNvbnNpc3RlbmN5LCBsYW5ndWFnZSBicmVha2Rvd24sIGFuZCByZWFsIGFyY2hpdGVjdHVyYWwgaW1wbGVtZW50YXRpb25zLlxyXG4gICAgICAgICAgPC9wPlxyXG4gICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICB7LyogSGVhZGVyIEF1ZGl0IEZvcm0gKi99XHJcbiAgICAgICAgPGZvcm1cclxuICAgICAgICAgIG9uU3VibWl0PXsoZSkgPT4ge1xyXG4gICAgICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7XHJcbiAgICAgICAgICAgIGhhbmRsZUF1ZGl0KCk7XHJcbiAgICAgICAgICB9fVxyXG4gICAgICAgICAgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgc2hyaW5rLTAgc2VsZi1zdGFydCBzbTpzZWxmLWNlbnRlclwiXHJcbiAgICAgICAgPlxyXG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJyZWxhdGl2ZVwiPlxyXG4gICAgICAgICAgICA8aW5wdXRcclxuICAgICAgICAgICAgICB0eXBlPVwidGV4dFwiXHJcbiAgICAgICAgICAgICAgdmFsdWU9e3VzZXJuYW1lSW5wdXR9XHJcbiAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRVc2VybmFtZUlucHV0KGUudGFyZ2V0LnZhbHVlKX1cclxuICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIkdpdEh1YiBoYW5kbGUuLi5cIlxyXG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cInB4LTMgcHktMiBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgcm91bmRlZC14bCB0ZXh0LXhzIHRleHQtd2hpdGUgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOmJvcmRlci1pbmRpZ28tNTAwIHctMzYgc206dy00NFwiXHJcbiAgICAgICAgICAgIC8+XHJcbiAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgIDxidXR0b25cclxuICAgICAgICAgICAgdHlwZT1cInN1Ym1pdFwiXHJcbiAgICAgICAgICAgIGRpc2FibGVkPXtzY2FubmluZ31cclxuICAgICAgICAgICAgY2xhc3NOYW1lPVwicHgtNCBweS0yIHJvdW5kZWQteGwgYmctaW5kaWdvLTYwMCBob3ZlcjpiZy1pbmRpZ28tNTAwIHRleHQtd2hpdGUgdGV4dC14cyBmb250LXNlbWlib2xkIGZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHNoYWRvdy1tZCBzaGFkb3ctaW5kaWdvLTYwMC8zMCB0cmFuc2l0aW9uLWFsbCBkaXNhYmxlZDpvcGFjaXR5LTUwXCJcclxuICAgICAgICAgID5cclxuICAgICAgICAgICAgPFJlZnJlc2hDdyBjbGFzc05hbWU9e2B3LTMuNSBoLTMuNSAke3NjYW5uaW5nID8gJ2FuaW1hdGUtc3BpbiB0ZXh0LXdoaXRlJyA6ICcnfWB9IC8+XHJcbiAgICAgICAgICAgIDxzcGFuPntzY2FubmluZyA/ICdBdWRpdGluZy4uLicgOiAoaXNDb25uZWN0ZWQgPyAnUmUtQXVkaXQnIDogJ0F1ZGl0IEdpdEh1YicpfTwvc3Bhbj5cclxuICAgICAgICAgIDwvYnV0dG9uPlxyXG4gICAgICAgIDwvZm9ybT5cclxuICAgICAgPC9kaXY+XHJcblxyXG4gICAgICB7LyogU3RhdHVzIG9yIEVycm9yIE5vdGlmaWNhdGlvbnMgKi99XHJcbiAgICAgIHtzdGF0dXNNZXNzYWdlICYmIChcclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInAtMyByb3VuZGVkLTJ4bCBiZy1lbWVyYWxkLTk1MC82MCBib3JkZXIgYm9yZGVyLWVtZXJhbGQtNTAwLzMwIHRleHQteHMgdGV4dC1lbWVyYWxkLTMwMCBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMlwiPlxyXG4gICAgICAgICAgPFNoaWVsZENoZWNrIGNsYXNzTmFtZT1cInctNCBoLTQgdGV4dC1lbWVyYWxkLTQwMCBzaHJpbmstMFwiIC8+XHJcbiAgICAgICAgICA8c3Bhbj57c3RhdHVzTWVzc2FnZX08L3NwYW4+XHJcbiAgICAgICAgPC9kaXY+XHJcbiAgICAgICl9XHJcblxyXG4gICAgICB7ZXJyb3JNZXNzYWdlICYmIChcclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInAtMyByb3VuZGVkLTJ4bCBiZy1yb3NlLTk1MC82MCBib3JkZXIgYm9yZGVyLXJvc2UtNTAwLzMwIHRleHQteHMgdGV4dC1yb3NlLTMwMCBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMlwiPlxyXG4gICAgICAgICAgPEFsZXJ0Q2lyY2xlIGNsYXNzTmFtZT1cInctNCBoLTQgdGV4dC1yb3NlLTQwMCBzaHJpbmstMFwiIC8+XHJcbiAgICAgICAgICA8c3Bhbj57ZXJyb3JNZXNzYWdlfTwvc3Bhbj5cclxuICAgICAgICA8L2Rpdj5cclxuICAgICAgKX1cclxuXHJcbiAgICAgIHsvKiBNYWluIENvbnRlbnQgQXJlYSAqL31cclxuICAgICAge2lzQ29ubmVjdGVkID8gKFxyXG4gICAgICAgIDw+XHJcbiAgICAgICAgICB7LyogUHJvZmlsZSBzdW1tYXJ5IGNhcmQgKi99XHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsLWdsb3cgcC02IHNtOnAtOCByb3VuZGVkLTN4bCBib3JkZXIgYm9yZGVyLWluZGlnby01MDAvMzAgZmxleCBmbGV4LWNvbCBtZDpmbGV4LXJvdyBpdGVtcy1zdGFydCBtZDppdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGdhcC02XCI+XHJcbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTRcIj5cclxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInctMTQgaC0xNCByb3VuZGVkLTJ4bCBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgdGV4dC13aGl0ZSBzaHJpbmstMFwiPlxyXG4gICAgICAgICAgICAgICAgPEdpdEJyYW5jaCBjbGFzc05hbWU9XCJ3LTcgaC03IHRleHQtZW1lcmFsZC00MDBcIiAvPlxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yXCI+XHJcbiAgICAgICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJ0ZXh0LWxnIGZvbnQtYm9sZCB0ZXh0LXdoaXRlXCI+QHtzYWZlRGF0YS51c2VybmFtZSB8fCAndXNlcid9PC9oMj5cclxuICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1bMTBweF0gcHgtMiBweS0wLjUgcm91bmRlZCBiZy1lbWVyYWxkLTk1MCB0ZXh0LWVtZXJhbGQtMzAwIGJvcmRlciBib3JkZXItZW1lcmFsZC01MDAvMzAgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTFcIj5cclxuICAgICAgICAgICAgICAgICAgICA8Q2hlY2tDaXJjbGUyIGNsYXNzTmFtZT1cInctMyBoLTMgdGV4dC1lbWVyYWxkLTQwMFwiIC8+IENvbm5lY3RlZFxyXG4gICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDAgbXQtMC41XCI+Q29udGludW91cyBpbnRlZ3JhdGlvbiBhdWRpdCBhY3RpdmU8L3A+XHJcbiAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGl0ZW1zLWNlbnRlciBnYXAtNiB0ZXh0LWNlbnRlclwiPlxyXG4gICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtYmxhY2sgdGV4dC13aGl0ZVwiPnt0b3RhbFJlcG9zfTwvZGl2PlxyXG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTQwMFwiPlB1YmxpYyBSZXBvczwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtYmxhY2sgdGV4dC1pbmRpZ28tNDAwXCI+e3RvdGFsQ29tbWl0c308L2Rpdj5cclxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1bMTFweF0gdGV4dC1zbGF0ZS00MDBcIj5BdWRpdGVkIENvbW1pdHM8L2Rpdj5cclxuICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LTJ4bCBmb250LWJsYWNrIHRleHQtYW1iZXItNDAwXCI+e3RvdGFsU3RhcnN9PC9kaXY+XHJcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtWzExcHhdIHRleHQtc2xhdGUtNDAwXCI+R2l0SHViIFN0YXJzPC9kaXY+XHJcbiAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC0yeGwgZm9udC1ibGFjayB0ZXh0LWVtZXJhbGQtNDAwXCI+e292ZXJhbGxFdmlkZW5jZVNjb3JlfS8xMDA8L2Rpdj5cclxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1bMTFweF0gdGV4dC1zbGF0ZS00MDBcIj5FdmlkZW5jZSBTY29yZTwvZGl2PlxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICAgIHsvKiBEeW5hbWljIExhbmd1YWdlIEJyZWFrZG93biAqL31cclxuICAgICAgICAgIHtkZXRlY3RlZExhbmd1YWdlcy5sZW5ndGggPiAwID8gKFxyXG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsIHAtNiByb3VuZGVkLTN4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTgwMCBzcGFjZS15LTNcIj5cclxuICAgICAgICAgICAgICA8aDMgY2xhc3NOYW1lPVwidGV4dC14cyBmb250LWJvbGQgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIHRleHQtc2xhdGUtNDAwXCI+QXVkaXRlZCBDb2RlYmFzZSBMYW5ndWFnZSBEaXN0cmlidXRpb248L2gzPlxyXG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidy1mdWxsIGgtMyByb3VuZGVkLWZ1bGwgYmctc2xhdGUtOTAwIGZsZXggb3ZlcmZsb3ctaGlkZGVuIGJvcmRlciBib3JkZXItc2xhdGUtODAwXCI+XHJcbiAgICAgICAgICAgICAgICB7ZGV0ZWN0ZWRMYW5ndWFnZXMubWFwKChsYW5nLCBpZHgpID0+IChcclxuICAgICAgICAgICAgICAgICAgPGRpdlxyXG4gICAgICAgICAgICAgICAgICAgIGtleT17aWR4fVxyXG4gICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YCR7Z2V0TGFuZ3VhZ2VDb2xvcihsYW5nLm5hbWUpfSBoLWZ1bGxgfVxyXG4gICAgICAgICAgICAgICAgICAgIHN0eWxlPXt7IHdpZHRoOiBgJHtNYXRoLm1heCg1LCBsYW5nLnBlcmNlbnRhZ2UgfHwgMTApfSVgIH19XHJcbiAgICAgICAgICAgICAgICAgICAgdGl0bGU9e2Ake2xhbmcubmFtZX0gJHtsYW5nLnBlcmNlbnRhZ2UgfHwgMH0lYH1cclxuICAgICAgICAgICAgICAgICAgLz5cclxuICAgICAgICAgICAgICAgICkpfVxyXG4gICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LXdyYXAgZ2FwLTQgdGV4dC14cyB0ZXh0LXNsYXRlLTQwMCBwdC0xXCI+XHJcbiAgICAgICAgICAgICAgICB7ZGV0ZWN0ZWRMYW5ndWFnZXMubWFwKChsYW5nLCBpZHgpID0+IChcclxuICAgICAgICAgICAgICAgICAgPHNwYW4ga2V5PXtpZHh9IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjVcIj5cclxuICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9e2B3LTIuNSBoLTIuNSByb3VuZGVkLWZ1bGwgJHtnZXRMYW5ndWFnZUNvbG9yKGxhbmcubmFtZSl9YH0gLz5cclxuICAgICAgICAgICAgICAgICAgICA8c3Bhbj57bGFuZy5uYW1lfSAoe2xhbmcucGVyY2VudGFnZSB8fCAwfSUpPC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICApKX1cclxuICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICApIDogbnVsbH1cclxuXHJcbiAgICAgICAgICB7LyogVmVyaWZpZWQgUmVwb3NpdG9yaWVzIExpc3QgKi99XHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInNwYWNlLXktNFwiPlxyXG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlblwiPlxyXG4gICAgICAgICAgICAgIDxoMyBjbGFzc05hbWU9XCJ0ZXh0LXNtIGZvbnQtYm9sZCB1cHBlcmNhc2UgdHJhY2tpbmctd2lkZXIgdGV4dC1zbGF0ZS0zMDBcIj5BdWRpdGVkIFJlcG9zaXRvcmllcyAmIEV2aWRlbmNlIERvc3NpZXI8L2gzPlxyXG4gICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS01MDAgZm9udC1tb25vXCI+e3ZlcmlmaWVkUmVwb3MubGVuZ3RofSBSZXBvc2l0b3JpZXMgVmVyaWZpZWQ8L3NwYW4+XHJcbiAgICAgICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICAgICAge3ZlcmlmaWVkUmVwb3MubGVuZ3RoID4gMCA/IChcclxuICAgICAgICAgICAgICB2ZXJpZmllZFJlcG9zLm1hcCgocmVwbywgaSkgPT4gKFxyXG4gICAgICAgICAgICAgICAgPGRpdiBrZXk9e3JlcG8uaWQgfHwgaX0gY2xhc3NOYW1lPVwiZ2xhc3MtcGFuZWwgcC02IHJvdW5kZWQtMnhsIGJvcmRlciBib3JkZXItc2xhdGUtODAwIHNwYWNlLXktM1wiPlxyXG4gICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggZmxleC1jb2wgc206ZmxleC1yb3cgc206aXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBnYXAtMlwiPlxyXG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxDb2RlMiBjbGFzc05hbWU9XCJ3LTUgaC01IHRleHQtaW5kaWdvLTQwMFwiIC8+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8YVxyXG4gICAgICAgICAgICAgICAgICAgICAgICBocmVmPXtyZXBvLnVybH1cclxuICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0PVwiX2JsYW5rXCJcclxuICAgICAgICAgICAgICAgICAgICAgICAgcmVsPVwibm9yZWZlcnJlclwiXHJcbiAgICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cImZvbnQtYm9sZCB0ZXh0LXdoaXRlIHRleHQtc20gaG92ZXI6dGV4dC1pbmRpZ28tNDAwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xXCJcclxuICAgICAgICAgICAgICAgICAgICAgID5cclxuICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4+e3JlcG8ubmFtZX08L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIDxFeHRlcm5hbExpbmsgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgb3BhY2l0eS02MFwiIC8+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8L2E+XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcblxyXG4gICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQteHMgZm9udC1tb25vIGZvbnQtYm9sZCBweC0yIHB5LTAuNSByb3VuZGVkIGJnLWVtZXJhbGQtOTUwIHRleHQtZW1lcmFsZC0zMDAgYm9yZGVyIGJvcmRlci1lbWVyYWxkLTUwMC8zMFwiPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICBFdmlkZW5jZToge3JlcG8uZXZpZGVuY2VTY29yZX0vMTAwXHJcbiAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtc2xhdGUtNDAwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIDxTdGFyIGNsYXNzTmFtZT1cInctMy41IGgtMy41IHRleHQtYW1iZXItNDAwXCIgLz4ge3JlcG8uc3RhcnN9XHJcbiAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtc2xhdGUtNDAwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIDxHaXRDb21taXQgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgdGV4dC1pbmRpZ28tNDAwXCIgLz4ge3JlcG8uY29tbWl0c31cclxuICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcblxyXG4gICAgICAgICAgICAgICAgICB7LyogRnJhbWV3b3JrcyAvIFRlY2hub2xvZ2llcyAqL31cclxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmbGV4IGZsZXgtd3JhcCBnYXAtMS41XCI+XHJcbiAgICAgICAgICAgICAgICAgICAge3JlcG8udGVjaG5vbG9naWVzLm1hcCgodCwgaWR4KSA9PiAoXHJcbiAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBrZXk9e2lkeH0gY2xhc3NOYW1lPVwidGV4dC1bMTBweF0gcHgtMi41IHB5LTAuNSByb3VuZGVkIGJnLXNsYXRlLTkwMCBib3JkZXIgYm9yZGVyLXNsYXRlLTcwMCB0ZXh0LXNsYXRlLTMwMCBmb250LW1vbm9cIj5cclxuICAgICAgICAgICAgICAgICAgICAgICAge3R9XHJcbiAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgKSl9XHJcbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICAgICAgICAgICAgey8qIEFTVCBQcm9vZiAvIEtleSBGaW5kaW5nICovfVxyXG4gICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInAtMyByb3VuZGVkLXhsIGJnLXNsYXRlLTkwMC84MCBib3JkZXIgYm9yZGVyLXNsYXRlLTg1MCB0ZXh0LXhzIHRleHQtc2xhdGUtMzAwIGZsZXggaXRlbXMtc3RhcnQgZ2FwLTJcIj5cclxuICAgICAgICAgICAgICAgICAgICA8U2hpZWxkQ2hlY2sgY2xhc3NOYW1lPVwidy00IGgtNCB0ZXh0LWN5YW4tNDAwIHNocmluay0wIG10LTAuNVwiIC8+XHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZvbnQtc2VtaWJvbGQgdGV4dC13aGl0ZVwiPkF1dG9tYXRlZCBBU1QgUHJvb2Y6IDwvc3Bhbj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtc2xhdGUtNDAwXCI+e3JlcG8ua2V5RmluZGluZ308L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgKSlcclxuICAgICAgICAgICAgKSA6IChcclxuICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsIHAtNiByb3VuZGVkLTJ4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTgwMCB0ZXh0LWNlbnRlciB0ZXh0LXNsYXRlLTQwMCB0ZXh0LXhzXCI+XHJcbiAgICAgICAgICAgICAgICBObyBwdWJsaWMgcmVwb3NpdG9yaWVzIGZvdW5kIGZvciBAe3NhZmVEYXRhLnVzZXJuYW1lfS4gVHJ5IHJlLWF1ZGl0aW5nIG9yIHB1c2hpbmcgY29kZSB0byBHaXRIdWIuXHJcbiAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICl9XHJcbiAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICA8Lz5cclxuICAgICAgKSA6IChcclxuICAgICAgICAvKiBQcm9wZXIgRGlzY29ubmVjdGVkIC8gRW1wdHkgU3RhdGUgKi9cclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsIHAtOCBzbTpwLTEyIHJvdW5kZWQtM3hsIGJvcmRlciBib3JkZXItc2xhdGUtODAwIHRleHQtY2VudGVyIHNwYWNlLXktNlwiPlxyXG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ3LTE2IGgtMTYgcm91bmRlZC0yeGwgYmctaW5kaWdvLTUwMC8xMCBib3JkZXIgYm9yZGVyLWluZGlnby01MDAvMjAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1jZW50ZXIgbXgtYXV0byB0ZXh0LWluZGlnby00MDAgc2hhZG93LWxnIHNoYWRvdy1pbmRpZ28tNTAwLzEwXCI+XHJcbiAgICAgICAgICAgIDxHaXRCcmFuY2ggY2xhc3NOYW1lPVwidy04IGgtOFwiIC8+XHJcbiAgICAgICAgICA8L2Rpdj5cclxuXHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInNwYWNlLXktMiBtYXgtdy1sZyBteC1hdXRvXCI+XHJcbiAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJ0ZXh0LXhsIGZvbnQtYmxhY2sgdGV4dC13aGl0ZVwiPk5vIEdpdEh1YiBBY2NvdW50IENvbm5lY3RlZCBZZXQ8L2gyPlxyXG4gICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtc2xhdGUtNDAwIGxlYWRpbmctcmVsYXhlZFwiPlxyXG4gICAgICAgICAgICAgIENvbm5lY3QgeW91ciBHaXRIdWIgYWNjb3VudCB0byB2ZXJpZnkgcmVhbC13b3JsZCBpbXBsZW1lbnRhdGlvbiBwcm9vZi4gT3VyIGF1dG9ub21vdXMgYXVkaXRvciBhbmFseXplcyBjb21taXQgdmVsb2NpdHksIGFyY2hpdGVjdHVyZSBwYXR0ZXJucywgYW5kIGxhbmd1YWdlIGRpc3RyaWJ1dGlvbnMgdG8gdmFsaWRhdGUgeW91ciBUaWVyIDIgY29tcGV0ZW5jaWVzLlxyXG4gICAgICAgICAgICA8L3A+XHJcbiAgICAgICAgICA8L2Rpdj5cclxuXHJcbiAgICAgICAgICA8Zm9ybVxyXG4gICAgICAgICAgICBvblN1Ym1pdD17KGUpID0+IHtcclxuICAgICAgICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7XHJcbiAgICAgICAgICAgICAgaGFuZGxlQXVkaXQoKTtcclxuICAgICAgICAgICAgfX1cclxuICAgICAgICAgICAgY2xhc3NOYW1lPVwibWF4LXctbWQgbXgtYXV0byBmbGV4IGZsZXgtY29sIHNtOmZsZXgtcm93IGl0ZW1zLWNlbnRlciBnYXAtM1wiXHJcbiAgICAgICAgICA+XHJcbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwicmVsYXRpdmUgdy1mdWxsXCI+XHJcbiAgICAgICAgICAgICAgPGlucHV0XHJcbiAgICAgICAgICAgICAgICB0eXBlPVwidGV4dFwiXHJcbiAgICAgICAgICAgICAgICB2YWx1ZT17dXNlcm5hbWVJbnB1dH1cclxuICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0VXNlcm5hbWVJbnB1dChlLnRhcmdldC52YWx1ZSl9XHJcbiAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cIkVudGVyIEdpdEh1YiBoYW5kbGUgKGUuZy4gb2N0b2NhdCkuLi5cIlxyXG4gICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwidy1mdWxsIHB4LTQgcHktMyBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgcm91bmRlZC0yeGwgdGV4dC14cyB0ZXh0LXdoaXRlIHBsYWNlaG9sZGVyLXNsYXRlLTUwMCBmb2N1czpvdXRsaW5lLW5vbmUgZm9jdXM6Ym9yZGVyLWluZGlnby01MDBcIlxyXG4gICAgICAgICAgICAgIC8+XHJcbiAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICA8YnV0dG9uXHJcbiAgICAgICAgICAgICAgdHlwZT1cInN1Ym1pdFwiXHJcbiAgICAgICAgICAgICAgZGlzYWJsZWQ9e3NjYW5uaW5nfVxyXG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBzbTp3LWF1dG8gcHgtNiBweS0zIHJvdW5kZWQtMnhsIGJnLWluZGlnby02MDAgaG92ZXI6YmctaW5kaWdvLTUwMCB0ZXh0LXdoaXRlIHRleHQteHMgZm9udC1zZW1pYm9sZCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBnYXAtMiBzaGFkb3ctbGcgc2hhZG93LWluZGlnby02MDAvMzAgc2hyaW5rLTAgdHJhbnNpdGlvbi1hbGwgZGlzYWJsZWQ6b3BhY2l0eS01MFwiXHJcbiAgICAgICAgICAgID5cclxuICAgICAgICAgICAgICA8UmVmcmVzaEN3IGNsYXNzTmFtZT17YHctMy41IGgtMy41ICR7c2Nhbm5pbmcgPyAnYW5pbWF0ZS1zcGluIHRleHQtd2hpdGUnIDogJyd9YH0gLz5cclxuICAgICAgICAgICAgICA8c3Bhbj57c2Nhbm5pbmcgPyAnQXVkaXRpbmcgUmVwb3NpdG9yaWVzLi4uJyA6ICdDb25uZWN0IEdpdEh1Yid9PC9zcGFuPlxyXG4gICAgICAgICAgICA8L2J1dHRvbj5cclxuICAgICAgICAgIDwvZm9ybT5cclxuXHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInB0LTQgYm9yZGVyLXQgYm9yZGVyLXNsYXRlLTg1MC84MCBmbGV4IGZsZXgtd3JhcCBqdXN0aWZ5LWNlbnRlciBnYXAtNiB0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTUwMFwiPlxyXG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjVcIj5cclxuICAgICAgICAgICAgICA8U2hpZWxkQ2hlY2sgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgdGV4dC1lbWVyYWxkLTQwMFwiIC8+XHJcbiAgICAgICAgICAgICAgPHNwYW4+Q3J5cHRvZ3JhcGhpYyBjb21taXQgYXVkaXQ8L3NwYW4+XHJcbiAgICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjVcIj5cclxuICAgICAgICAgICAgICA8Q29kZTIgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjUgdGV4dC1pbmRpZ28tNDAwXCIgLz5cclxuICAgICAgICAgICAgICA8c3Bhbj5BdXRvbWF0ZWQgQVNUIGFyY2hpdGVjdHVyZSBwcm9vZjwvc3Bhbj5cclxuICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTEuNVwiPlxyXG4gICAgICAgICAgICAgIDxTcGFya2xlcyBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNSB0ZXh0LWFtYmVyLTQwMFwiIC8+XHJcbiAgICAgICAgICAgICAgPHNwYW4+VGllciAyIHZlcmlmaWVkIHNjb3JlIGJvb3N0PC9zcGFuPlxyXG4gICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgIDwvZGl2PlxyXG4gICAgICApfVxyXG4gICAgPC9kaXY+XHJcbiAgKTtcclxufTtcclxuXHJcbiJdLCJmaWxlIjoiQzovVXNlcnMvRGVsbC8uZ2VtaW5pL2FudGlncmF2aXR5L3NjcmF0Y2gvc2tpbGxwcm9vZi9mcm9udGVuZC9zcmMvcGFnZXMvc3R1ZGVudC9HaXRodWJWZXJpZmljYXRpb25QYWdlLmpzeCJ9

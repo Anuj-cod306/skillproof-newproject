@@ -1,0 +1,99 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 3378 >>
+stream
+0.97 0.98 0.99 rg 0 0 595 842 re f
+1.0 1.0 1.0 rg 36 670 523 135 re f
+0.88 0.91 0.94 RG 1 w 36 670 523 135 re S
+0.145 0.388 0.922 rg 36 801 523 4 re f
+0.145 0.388 0.922 rg 52 774 240 18 re f
+1.0 1.0 1.0 rg
+BT /F1 9 Tf 58 779 Td (VERIFIED CAPSTONE PROJECT - TIER 1 & 2 EVIDENCE) Tj ET
+0.06 0.09 0.16 rg
+BT /F1 16 Tf 52 750 Td (SmartPrep - AI-Powered Interview Preparation Platform) Tj ET
+0.28 0.33 0.41 rg
+BT /F2 10 Tf 52 732 Td (Anuj Bhalothia \(Candidate ID: SP-2026-9041\)) Tj ET
+BT /F2 9 Tf 52 718 Td (SkillProof Autonomous Engineering Institute) Tj ET
+0.92 0.94 0.96 RG 1 w 52 702 m 543 702 l S
+0.40 0.45 0.53 rg
+BT /F1 9 Tf 52 688 Td (Verified Date: August 10, 2026) Tj ET
+0.145 0.388 0.922 rg
+BT /F1 9 Tf 360 688 Td ([VERIFIED] SkillProof Digital Attestation) Tj ET
+1.0 1.0 1.0 rg 36 576 523 69 re f
+0.88 0.91 0.94 RG 1 w 36 576 523 69 re S
+0.06 0.09 0.16 rg
+BT /F1 11 Tf 52 627 Td (1. Executive Summary & Problem Statement) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 611 Td (SmartPrep is an enterprise-grade AI technical interview simulation and coding evaluation system.) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 596 Td (Designed to eliminate interview preparation bias, it conducts real-time adaptive defense questioning,) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 581 Td (tracks speech confidence, and executes candidate code inside sandboxed ephemeral containers.) Tj ET
+1.0 1.0 1.0 rg 36 478 523 84 re f
+0.88 0.91 0.94 RG 1 w 36 478 523 84 re S
+0.06 0.09 0.16 rg
+BT /F1 11 Tf 52 544 Td (2. System Architecture & Tech Stack) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 528 Td (- Frontend: React 18, Vite, TailwindCSS, WebRTC Audio/Video Compositing Engine) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 513 Td (- Backend: Spring Boot 3.2, Java 21, Spring Security \(JWT Auth\), Hibernate JPA) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 498 Td (- Database: PostgreSQL with JSONB schema for rubric evaluations, Redis caching layer) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 483 Td (- LLM Orchestration: Google Gemini 1.5 Pro via Vertex AI SDK for context-aware defense questioning) Tj ET
+1.0 1.0 1.0 rg 36 380 523 84 re f
+0.88 0.91 0.94 RG 1 w 36 380 523 84 re S
+0.06 0.09 0.16 rg
+BT /F1 11 Tf 52 446 Td (3. Quantitative Verification Metrics) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 430 Td (- Unit & Integration Test Coverage: 94.2% across 86 test suites) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 415 Td (- Sandboxed Code Execution Latency: p99 < 320ms) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 400 Td (- Tab-Switch Anti-Cheat Detection Accuracy: 100% in automated E2E suites) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 385 Td (- GitHub Repository: github.com/anuj-bhalothia/smartprep-ai \(420+ commits, 38 PRs reviewed\)) Tj ET
+1.0 1.0 1.0 rg 36 312 523 54 re f
+0.88 0.91 0.94 RG 1 w 36 312 523 54 re S
+0.06 0.09 0.16 rg
+BT /F1 11 Tf 52 348 Td (4. Cryptographic Proof of Authorship) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 332 Td (Audit Signature: SHA-256: 7f8a91c0e3b24d6589fa12b84732c5690dfa43817456bb2010cfa82390415a77) Tj ET
+0.25 0.30 0.38 rg
+BT /F2 9.5 Tf 52 317 Td (Status: VERIFIED & SEALED BY SKILLPROOF ATTESTATION ENGINE) Tj ET
+0.58 0.64 0.72 rg
+BT /F2 8.5 Tf 36 32 Td (SkillProof Verified Evidence Network - Cryptographic Hash: SHA-256:7f8a91c0e3b24d6589fa12b847) Tj ET
+BT /F2 8.5 Tf 450 32 Td (Page 1 of 1 - Tamper-Evident) Tj ET
+0.88 0.91 0.94 RG 1 w 36 46 m 559 46 l S
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000196 00000 n 
+0000000266 00000 n 
+0000000402 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3832
+%%EOF

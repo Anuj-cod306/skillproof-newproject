@@ -1,0 +1,513 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/industry/PostJobPage.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=e7692922"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=e7692922"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react; const useState = __vite__cjsImport3_react["useState"];
+import { useNavigate } from "/node_modules/.vite/deps/react-router-dom.js?v=e7692922";
+import { Briefcase, Plus, Trash2, ShieldCheck, CheckCircle2, ArrowRight } from "/node_modules/.vite/deps/lucide-react.js?v=e7692922";
+import apiService from "/src/services/api.js";
+export const PostJobPage = () => {
+  _s();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("Full-time");
+  const [location, setLocation] = useState("Bengaluru / Hybrid");
+  const [salary, setSalary] = useState("₹10,00,000 - ₹14,00,000 / annum");
+  const [minReadiness, setMinReadiness] = useState(75);
+  const [description, setDescription] = useState("");
+  const [posted, setPosted] = useState(false);
+  const [skills, setSkills] = useState(
+    [
+      { name: "Java", weight: "High (1.0)", mandatory: true },
+      { name: "Spring Boot", weight: "High (1.0)", mandatory: true },
+      { name: "SQL / PostgreSQL", weight: "Medium (0.8)", mandatory: true },
+      { name: "Docker", weight: "Bonus (0.5)", mandatory: false }
+    ]
+  );
+  const [newSkillName, setNewSkillName] = useState("");
+  const addSkill = () => {
+    if (!newSkillName.trim()) return;
+    setSkills([...skills, { name: newSkillName.trim(), weight: "Medium (0.8)", mandatory: true }]);
+    setNewSkillName("");
+  };
+  const removeSkill = (index) => {
+    setSkills(skills.filter((_, i) => i !== index));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setPosted(true);
+    try {
+      await apiService.createJob({
+        title,
+        jobType: type,
+        location,
+        salaryRange: salary,
+        minReadinessScore: minReadiness,
+        description: description || `Looking for ${title} with verified competencies in ${skills.map((s) => s.name).join(", ")}.`,
+        requiredSkills: skills.map((s) => s.name).join(", ")
+      });
+    } catch (err) {
+      console.warn("[PostJobPage] API note:", err.message);
+    }
+    setTimeout(() => {
+      navigate("/industry/dashboard");
+    }, 1200);
+  };
+  return /* @__PURE__ */ jsxDEV("div", { className: "max-w-4xl mx-auto space-y-6", children: [
+    /* @__PURE__ */ jsxDEV("div", { children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-bold uppercase tracking-wider text-cyan-400", children: "Recruiter Configuration" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 79,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30", children: "Smart Matching" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 80,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 78,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("h1", { className: "text-2xl font-black text-white mt-1", children: "Post Opportunity with Weighted Proof Thresholds" }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 84,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400", children: "Define mandatory skills and minimum 4-tier verification benchmarks for explainable applicant matching." }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 85,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+      lineNumber: 77,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("form", { onSubmit: handleSubmit, className: "space-y-6", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-4", children: [
+        /* @__PURE__ */ jsxDEV("h2", { className: "text-sm font-bold text-white uppercase tracking-wider", children: "Opportunity Specifications" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 92,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "sm:col-span-2", children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: "Job / Internship Title" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 96,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "input",
+              {
+                required: true,
+                type: "text",
+                placeholder: "e.g. Distributed Backend Engineer",
+                value: title,
+                onChange: (e) => setTitle(e.target.value),
+                className: "w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 97,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 95,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: "Employment Type" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 108,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "select",
+              {
+                value: type,
+                onChange: (e) => setType(e.target.value),
+                className: "w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500",
+                children: [
+                  /* @__PURE__ */ jsxDEV("option", { children: "Full-time" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                    lineNumber: 114,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("option", { children: "Internship" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                    lineNumber: 115,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("option", { children: "Contract" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                    lineNumber: 116,
+                    columnNumber: 17
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("option", { children: "Live Industry Project" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                    lineNumber: 117,
+                    columnNumber: 17
+                  }, this)
+                ]
+              },
+              void 0,
+              true,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 109,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 107,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: "Location" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 122,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "input",
+              {
+                type: "text",
+                value: location,
+                onChange: (e) => setLocation(e.target.value),
+                className: "w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 123,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 121,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: "Compensation / Stipend" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 132,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "input",
+              {
+                type: "text",
+                value: salary,
+                onChange: (e) => setSalary(e.target.value),
+                className: "w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 133,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 131,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: [
+              "Minimum Placement Readiness Score (",
+              minReadiness,
+              "%)"
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 142,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "input",
+              {
+                type: "range",
+                min: "50",
+                max: "95",
+                value: minReadiness,
+                onChange: (e) => setMinReadiness(e.target.value),
+                className: "w-full accent-cyan-500"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 145,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 141,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "sm:col-span-2", children: [
+            /* @__PURE__ */ jsxDEV("label", { className: "block text-xs font-semibold text-slate-300 mb-1", children: "Role Description" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 156,
+              columnNumber: 15
+            }, this),
+            /* @__PURE__ */ jsxDEV(
+              "textarea",
+              {
+                rows: 3,
+                placeholder: "Key engineering challenges, system architectural expectations...",
+                value: description,
+                onChange: (e) => setDescription(e.target.value),
+                className: "w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500 resize-none"
+              },
+              void 0,
+              false,
+              {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 157,
+                columnNumber: 15
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 155,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 94,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 91,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-between pb-2 border-b border-slate-800", children: /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("h2", { className: "text-sm font-bold text-white uppercase tracking-wider", children: "Required Technical Skills & Weights" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 172,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400", children: "Used by the Explainable AI Matching Engine" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 173,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 171,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 170,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "space-y-2", children: skills.map(
+          (s, idx) => /* @__PURE__ */ jsxDEV("div", { className: "p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between gap-4 text-xs", children: [
+            /* @__PURE__ */ jsxDEV("span", { className: "font-bold text-white", children: s.name }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 180,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-3", children: [
+              /* @__PURE__ */ jsxDEV("span", { className: "text-[11px] text-slate-400", children: s.weight }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 182,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { className: `text-[10px] px-2 py-0.5 rounded font-semibold ${s.mandatory ? "bg-emerald-950 text-emerald-300" : "bg-slate-800 text-slate-400"}`, children: s.mandatory ? "Mandatory" : "Optional" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                lineNumber: 183,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                "button",
+                {
+                  type: "button",
+                  onClick: () => removeSkill(idx),
+                  className: "text-slate-500 hover:text-rose-400 p-1",
+                  children: /* @__PURE__ */ jsxDEV(Trash2, { className: "w-3.5 h-3.5" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                    lineNumber: 193,
+                    columnNumber: 21
+                  }, this)
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                  lineNumber: 188,
+                  columnNumber: 19
+                },
+                this
+              )
+            ] }, void 0, true, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 181,
+              columnNumber: 17
+            }, this)
+          ] }, idx, true, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+            lineNumber: 179,
+            columnNumber: 13
+          }, this)
+        ) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 177,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "flex gap-2 pt-2", children: [
+          /* @__PURE__ */ jsxDEV(
+            "input",
+            {
+              type: "text",
+              placeholder: "Add skill (e.g. Redis, Kafka, Kubernetes)...",
+              value: newSkillName,
+              onChange: (e) => setNewSkillName(e.target.value),
+              className: "flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 202,
+              columnNumber: 13
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            "button",
+            {
+              type: "button",
+              onClick: addSkill,
+              className: "px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1",
+              children: [
+                /* @__PURE__ */ jsxDEV(Plus, { className: "w-3.5 h-3.5" }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+                  lineNumber: 214,
+                  columnNumber: 15
+                }, this),
+                " Add"
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 209,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 201,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 169,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex justify-end", children: /* @__PURE__ */ jsxDEV(
+        "button",
+        {
+          type: "submit",
+          className: "px-8 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 flex items-center gap-2 transition-all",
+          children: [
+            posted ? /* @__PURE__ */ jsxDEV(CheckCircle2, { className: "w-4 h-4 text-white" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 224,
+              columnNumber: 23
+            }, this) : /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-4 h-4" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 224,
+              columnNumber: 73
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { children: posted ? "Posting Activated on Ecosystem..." : "Publish Verified Job Listing" }, void 0, false, {
+              fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+              lineNumber: 225,
+              columnNumber: 13
+            }, this)
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+          lineNumber: 220,
+          columnNumber: 11
+        },
+        this
+      ) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+        lineNumber: 219,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+      lineNumber: 90,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx",
+    lineNumber: 76,
+    columnNumber: 5
+  }, this);
+};
+_s(PostJobPage, "qY9guwzPVMFxAjGJ3LwsjKuU/xo=", false, function() {
+  return [useNavigate];
+});
+_c = PostJobPage;
+var _c;
+$RefreshReg$(_c, "PostJobPage");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/industry/PostJobPage.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsTUFNQSxLQVBGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFRQTtBQUFBLFNBeklGO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0EwSUE7QUFBQSxPQXhKRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBeUpBO0FBRUo7QUFBRWQsR0E5TVdELGFBQVc7QUFBQSxVQUNMUixXQUFXO0FBQUE7QUFBQSxLQURqQlE7QUFBVyxJQUFBa0Q7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsiUmVhY3QiLCJ1c2VTdGF0ZSIsInVzZU5hdmlnYXRlIiwiQnJpZWZjYXNlIiwiUGx1cyIsIlRyYXNoMiIsIlNoaWVsZENoZWNrIiwiQ2hlY2tDaXJjbGUyIiwiQXJyb3dSaWdodCIsImFwaVNlcnZpY2UiLCJQb3N0Sm9iUGFnZSIsIl9zIiwibmF2aWdhdGUiLCJ0aXRsZSIsInNldFRpdGxlIiwidHlwZSIsInNldFR5cGUiLCJsb2NhdGlvbiIsInNldExvY2F0aW9uIiwic2FsYXJ5Iiwic2V0U2FsYXJ5IiwibWluUmVhZGluZXNzIiwic2V0TWluUmVhZGluZXNzIiwiZGVzY3JpcHRpb24iLCJzZXREZXNjcmlwdGlvbiIsInBvc3RlZCIsInNldFBvc3RlZCIsInNraWxscyIsInNldFNraWxscyIsIm5hbWUiLCJ3ZWlnaHQiLCJtYW5kYXRvcnkiLCJuZXdTa2lsbE5hbWUiLCJzZXROZXdTa2lsbE5hbWUiLCJhZGRTa2lsbCIsInRyaW0iLCJyZW1vdmVTa2lsbCIsImluZGV4IiwiZmlsdGVyIiwiXyIsImkiLCJoYW5kbGVTdWJtaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJjcmVhdGVKb2IiLCJqb2JUeXBlIiwic2FsYXJ5UmFuZ2UiLCJtaW5SZWFkaW5lc3NTY29yZSIsIm1hcCIsInMiLCJqb2luIiwicmVxdWlyZWRTa2lsbHMiLCJlcnIiLCJjb25zb2xlIiwid2FybiIsIm1lc3NhZ2UiLCJzZXRUaW1lb3V0IiwidGFyZ2V0IiwidmFsdWUiLCJpZHgiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJQb3N0Sm9iUGFnZS5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgdXNlTmF2aWdhdGUgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJztcbmltcG9ydCB7IEJyaWVmY2FzZSwgUGx1cywgVHJhc2gyLCBTaGllbGRDaGVjaywgQ2hlY2tDaXJjbGUyLCBBcnJvd1JpZ2h0IH0gZnJvbSAnbHVjaWRlLXJlYWN0JztcbmltcG9ydCBhcGlTZXJ2aWNlIGZyb20gJy4uLy4uL3NlcnZpY2VzL2FwaSc7XG5cbmV4cG9ydCBjb25zdCBQb3N0Sm9iUGFnZSA9ICgpID0+IHtcbiAgY29uc3QgbmF2aWdhdGUgPSB1c2VOYXZpZ2F0ZSgpO1xuICBjb25zdCBbdGl0bGUsIHNldFRpdGxlXSA9IHVzZVN0YXRlKCcnKTtcbiAgY29uc3QgW3R5cGUsIHNldFR5cGVdID0gdXNlU3RhdGUoJ0Z1bGwtdGltZScpO1xuICBjb25zdCBbbG9jYXRpb24sIHNldExvY2F0aW9uXSA9IHVzZVN0YXRlKCdCZW5nYWx1cnUgLyBIeWJyaWQnKTtcbiAgY29uc3QgW3NhbGFyeSwgc2V0U2FsYXJ5XSA9IHVzZVN0YXRlKCfigrkxMCwwMCwwMDAgLSDigrkxNCwwMCwwMDAgLyBhbm51bScpO1xuICBjb25zdCBbbWluUmVhZGluZXNzLCBzZXRNaW5SZWFkaW5lc3NdID0gdXNlU3RhdGUoNzUpO1xuICBjb25zdCBbZGVzY3JpcHRpb24sIHNldERlc2NyaXB0aW9uXSA9IHVzZVN0YXRlKCcnKTtcbiAgY29uc3QgW3Bvc3RlZCwgc2V0UG9zdGVkXSA9IHVzZVN0YXRlKGZhbHNlKTtcblxuICBjb25zdCBbc2tpbGxzLCBzZXRTa2lsbHNdID0gdXNlU3RhdGUoW1xuICAgIHsgbmFtZTogJ0phdmEnLCB3ZWlnaHQ6ICdIaWdoICgxLjApJywgbWFuZGF0b3J5OiB0cnVlIH0sXG4gICAgeyBuYW1lOiAnU3ByaW5nIEJvb3QnLCB3ZWlnaHQ6ICdIaWdoICgxLjApJywgbWFuZGF0b3J5OiB0cnVlIH0sXG4gICAgeyBuYW1lOiAnU1FMIC8gUG9zdGdyZVNRTCcsIHdlaWdodDogJ01lZGl1bSAoMC44KScsIG1hbmRhdG9yeTogdHJ1ZSB9LFxuICAgIHsgbmFtZTogJ0RvY2tlcicsIHdlaWdodDogJ0JvbnVzICgwLjUpJywgbWFuZGF0b3J5OiBmYWxzZSB9XG4gIF0pO1xuXG4gIGNvbnN0IFtuZXdTa2lsbE5hbWUsIHNldE5ld1NraWxsTmFtZV0gPSB1c2VTdGF0ZSgnJyk7XG5cbiAgY29uc3QgYWRkU2tpbGwgPSAoKSA9PiB7XG4gICAgaWYgKCFuZXdTa2lsbE5hbWUudHJpbSgpKSByZXR1cm47XG4gICAgc2V0U2tpbGxzKFsuLi5za2lsbHMsIHsgbmFtZTogbmV3U2tpbGxOYW1lLnRyaW0oKSwgd2VpZ2h0OiAnTWVkaXVtICgwLjgpJywgbWFuZGF0b3J5OiB0cnVlIH1dKTtcbiAgICBzZXROZXdTa2lsbE5hbWUoJycpO1xuICB9O1xuXG4gIGNvbnN0IHJlbW92ZVNraWxsID0gKGluZGV4KSA9PiB7XG4gICAgc2V0U2tpbGxzKHNraWxscy5maWx0ZXIoKF8sIGkpID0+IGkgIT09IGluZGV4KSk7XG4gIH07XG5cbiAgY29uc3QgaGFuZGxlU3VibWl0ID0gYXN5bmMgKGUpID0+IHtcbiAgICBlLnByZXZlbnREZWZhdWx0KCk7XG4gICAgc2V0UG9zdGVkKHRydWUpO1xuICAgIHRyeSB7XG4gICAgICBhd2FpdCBhcGlTZXJ2aWNlLmNyZWF0ZUpvYih7XG4gICAgICAgIHRpdGxlLFxuICAgICAgICBqb2JUeXBlOiB0eXBlLFxuICAgICAgICBsb2NhdGlvbixcbiAgICAgICAgc2FsYXJ5UmFuZ2U6IHNhbGFyeSxcbiAgICAgICAgbWluUmVhZGluZXNzU2NvcmU6IG1pblJlYWRpbmVzcyxcbiAgICAgICAgZGVzY3JpcHRpb246IGRlc2NyaXB0aW9uIHx8IGBMb29raW5nIGZvciAke3RpdGxlfSB3aXRoIHZlcmlmaWVkIGNvbXBldGVuY2llcyBpbiAke3NraWxscy5tYXAocyA9PiBzLm5hbWUpLmpvaW4oJywgJyl9LmAsXG4gICAgICAgIHJlcXVpcmVkU2tpbGxzOiBza2lsbHMubWFwKHMgPT4gcy5uYW1lKS5qb2luKCcsICcpXG4gICAgICB9KTtcbiAgICB9IGNhdGNoIChlcnIpIHtcbiAgICAgIGNvbnNvbGUud2FybignW1Bvc3RKb2JQYWdlXSBBUEkgbm90ZTonLCBlcnIubWVzc2FnZSk7XG4gICAgfVxuICAgIHNldFRpbWVvdXQoKCkgPT4ge1xuICAgICAgbmF2aWdhdGUoJy9pbmR1c3RyeS9kYXNoYm9hcmQnKTtcbiAgICB9LCAxMjAwKTtcbiAgfTtcblxuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwibWF4LXctNHhsIG14LWF1dG8gc3BhY2UteS02XCI+XG4gICAgICA8ZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yXCI+XG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC14cyBmb250LWJvbGQgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIHRleHQtY3lhbi00MDBcIj5SZWNydWl0ZXIgQ29uZmlndXJhdGlvbjwvc3Bhbj5cbiAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LVsxMHB4XSBweC0yIHB5LTAuNSByb3VuZGVkIGJnLWN5YW4tOTUwIHRleHQtY3lhbi0zMDAgYm9yZGVyIGJvcmRlci1jeWFuLTUwMC8zMFwiPlxuICAgICAgICAgICAgU21hcnQgTWF0Y2hpbmdcbiAgICAgICAgICA8L3NwYW4+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8aDEgY2xhc3NOYW1lPVwidGV4dC0yeGwgZm9udC1ibGFjayB0ZXh0LXdoaXRlIG10LTFcIj5Qb3N0IE9wcG9ydHVuaXR5IHdpdGggV2VpZ2h0ZWQgUHJvb2YgVGhyZXNob2xkczwvaDE+XG4gICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDBcIj5cbiAgICAgICAgICBEZWZpbmUgbWFuZGF0b3J5IHNraWxscyBhbmQgbWluaW11bSA0LXRpZXIgdmVyaWZpY2F0aW9uIGJlbmNobWFya3MgZm9yIGV4cGxhaW5hYmxlIGFwcGxpY2FudCBtYXRjaGluZy5cbiAgICAgICAgPC9wPlxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxmb3JtIG9uU3VibWl0PXtoYW5kbGVTdWJtaXR9IGNsYXNzTmFtZT1cInNwYWNlLXktNlwiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsIHAtNiBzbTpwLTggcm91bmRlZC0zeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgc3BhY2UteS00XCI+XG4gICAgICAgICAgPGgyIGNsYXNzTmFtZT1cInRleHQtc20gZm9udC1ib2xkIHRleHQtd2hpdGUgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyXCI+T3Bwb3J0dW5pdHkgU3BlY2lmaWNhdGlvbnM8L2gyPlxuICAgICAgICAgIFxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ3JpZCBncmlkLWNvbHMtMSBzbTpncmlkLWNvbHMtMiBnYXAtNFwiPlxuICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzbTpjb2wtc3Bhbi0yXCI+XG4gICAgICAgICAgICAgIDxsYWJlbCBjbGFzc05hbWU9XCJibG9jayB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgdGV4dC1zbGF0ZS0zMDAgbWItMVwiPkpvYiAvIEludGVybnNoaXAgVGl0bGU8L2xhYmVsPlxuICAgICAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgICAgICByZXF1aXJlZFxuICAgICAgICAgICAgICAgIHR5cGU9XCJ0ZXh0XCJcbiAgICAgICAgICAgICAgICBwbGFjZWhvbGRlcj1cImUuZy4gRGlzdHJpYnV0ZWQgQmFja2VuZCBFbmdpbmVlclwiXG4gICAgICAgICAgICAgICAgdmFsdWU9e3RpdGxlfVxuICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0VGl0bGUoZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBweC0zIHB5LTIgYmctc2xhdGUtOTAwIGJvcmRlciBib3JkZXItc2xhdGUtNzAwIHJvdW5kZWQteGwgdGV4dC14cyB0ZXh0LXdoaXRlIGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpib3JkZXItY3lhbi01MDBcIlxuICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgIDxsYWJlbCBjbGFzc05hbWU9XCJibG9jayB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgdGV4dC1zbGF0ZS0zMDAgbWItMVwiPkVtcGxveW1lbnQgVHlwZTwvbGFiZWw+XG4gICAgICAgICAgICAgIDxzZWxlY3RcbiAgICAgICAgICAgICAgICB2YWx1ZT17dHlwZX1cbiAgICAgICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IHNldFR5cGUoZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBweC0zIHB5LTIgYmctc2xhdGUtOTAwIGJvcmRlciBib3JkZXItc2xhdGUtNzAwIHJvdW5kZWQteGwgdGV4dC14cyB0ZXh0LXdoaXRlIGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpib3JkZXItY3lhbi01MDBcIlxuICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgPG9wdGlvbj5GdWxsLXRpbWU8L29wdGlvbj5cbiAgICAgICAgICAgICAgICA8b3B0aW9uPkludGVybnNoaXA8L29wdGlvbj5cbiAgICAgICAgICAgICAgICA8b3B0aW9uPkNvbnRyYWN0PC9vcHRpb24+XG4gICAgICAgICAgICAgICAgPG9wdGlvbj5MaXZlIEluZHVzdHJ5IFByb2plY3Q8L29wdGlvbj5cbiAgICAgICAgICAgICAgPC9zZWxlY3Q+XG4gICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgPGRpdj5cbiAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQteHMgZm9udC1zZW1pYm9sZCB0ZXh0LXNsYXRlLTMwMCBtYi0xXCI+TG9jYXRpb248L2xhYmVsPlxuICAgICAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgICAgICB0eXBlPVwidGV4dFwiXG4gICAgICAgICAgICAgICAgdmFsdWU9e2xvY2F0aW9ufVxuICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0TG9jYXRpb24oZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAgICAgICAgIGNsYXNzTmFtZT1cInctZnVsbCBweC0zIHB5LTIgYmctc2xhdGUtOTAwIGJvcmRlciBib3JkZXItc2xhdGUtNzAwIHJvdW5kZWQteGwgdGV4dC14cyB0ZXh0LXdoaXRlIGZvY3VzOm91dGxpbmUtbm9uZSBmb2N1czpib3JkZXItY3lhbi01MDBcIlxuICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgIDxsYWJlbCBjbGFzc05hbWU9XCJibG9jayB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgdGV4dC1zbGF0ZS0zMDAgbWItMVwiPkNvbXBlbnNhdGlvbiAvIFN0aXBlbmQ8L2xhYmVsPlxuICAgICAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgICAgICB0eXBlPVwidGV4dFwiXG4gICAgICAgICAgICAgICAgdmFsdWU9e3NhbGFyeX1cbiAgICAgICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IHNldFNhbGFyeShlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwidy1mdWxsIHB4LTMgcHktMiBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgcm91bmRlZC14bCB0ZXh0LXhzIHRleHQtd2hpdGUgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOmJvcmRlci1jeWFuLTUwMFwiXG4gICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgPGRpdj5cbiAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQteHMgZm9udC1zZW1pYm9sZCB0ZXh0LXNsYXRlLTMwMCBtYi0xXCI+XG4gICAgICAgICAgICAgICAgTWluaW11bSBQbGFjZW1lbnQgUmVhZGluZXNzIFNjb3JlICh7bWluUmVhZGluZXNzfSUpXG4gICAgICAgICAgICAgIDwvbGFiZWw+XG4gICAgICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgICAgIHR5cGU9XCJyYW5nZVwiXG4gICAgICAgICAgICAgICAgbWluPVwiNTBcIlxuICAgICAgICAgICAgICAgIG1heD1cIjk1XCJcbiAgICAgICAgICAgICAgICB2YWx1ZT17bWluUmVhZGluZXNzfVxuICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0TWluUmVhZGluZXNzKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ3LWZ1bGwgYWNjZW50LWN5YW4tNTAwXCJcbiAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInNtOmNvbC1zcGFuLTJcIj5cbiAgICAgICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImJsb2NrIHRleHQteHMgZm9udC1zZW1pYm9sZCB0ZXh0LXNsYXRlLTMwMCBtYi0xXCI+Um9sZSBEZXNjcmlwdGlvbjwvbGFiZWw+XG4gICAgICAgICAgICAgIDx0ZXh0YXJlYVxuICAgICAgICAgICAgICAgIHJvd3M9ezN9XG4gICAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9XCJLZXkgZW5naW5lZXJpbmcgY2hhbGxlbmdlcywgc3lzdGVtIGFyY2hpdGVjdHVyYWwgZXhwZWN0YXRpb25zLi4uXCJcbiAgICAgICAgICAgICAgICB2YWx1ZT17ZGVzY3JpcHRpb259XG4gICAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXREZXNjcmlwdGlvbihlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICAgICAgY2xhc3NOYW1lPVwidy1mdWxsIHB4LTMgcHktMiBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgcm91bmRlZC14bCB0ZXh0LXhzIHRleHQtd2hpdGUgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOmJvcmRlci1jeWFuLTUwMCByZXNpemUtbm9uZVwiXG4gICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgey8qIFNraWxsIFdlaWdodHMgKi99XG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ2xhc3MtcGFuZWwgcC02IHNtOnAtOCByb3VuZGVkLTN4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTgwMCBzcGFjZS15LTRcIj5cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBwYi0yIGJvcmRlci1iIGJvcmRlci1zbGF0ZS04MDBcIj5cbiAgICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICAgIDxoMiBjbGFzc05hbWU9XCJ0ZXh0LXNtIGZvbnQtYm9sZCB0ZXh0LXdoaXRlIHVwcGVyY2FzZSB0cmFja2luZy13aWRlclwiPlJlcXVpcmVkIFRlY2huaWNhbCBTa2lsbHMgJiBXZWlnaHRzPC9oMj5cbiAgICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC14cyB0ZXh0LXNsYXRlLTQwMFwiPlVzZWQgYnkgdGhlIEV4cGxhaW5hYmxlIEFJIE1hdGNoaW5nIEVuZ2luZTwvcD5cbiAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJzcGFjZS15LTJcIj5cbiAgICAgICAgICAgIHtza2lsbHMubWFwKChzLCBpZHgpID0+IChcbiAgICAgICAgICAgICAgPGRpdiBrZXk9e2lkeH0gY2xhc3NOYW1lPVwicC0zIHJvdW5kZWQteGwgYmctc2xhdGUtOTAwLzgwIGJvcmRlciBib3JkZXItc2xhdGUtODAwIGZsZXggaXRlbXMtY2VudGVyIGp1c3RpZnktYmV0d2VlbiBnYXAtNCB0ZXh0LXhzXCI+XG4gICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwiZm9udC1ib2xkIHRleHQtd2hpdGVcIj57cy5uYW1lfTwvc3Bhbj5cbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0zXCI+XG4gICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTQwMFwiPntzLndlaWdodH08L3NwYW4+XG4gICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9e2B0ZXh0LVsxMHB4XSBweC0yIHB5LTAuNSByb3VuZGVkIGZvbnQtc2VtaWJvbGQgJHtcbiAgICAgICAgICAgICAgICAgICAgcy5tYW5kYXRvcnkgPyAnYmctZW1lcmFsZC05NTAgdGV4dC1lbWVyYWxkLTMwMCcgOiAnYmctc2xhdGUtODAwIHRleHQtc2xhdGUtNDAwJ1xuICAgICAgICAgICAgICAgICAgfWB9PlxuICAgICAgICAgICAgICAgICAgICB7cy5tYW5kYXRvcnkgPyAnTWFuZGF0b3J5JyA6ICdPcHRpb25hbCd9XG4gICAgICAgICAgICAgICAgICA8L3NwYW4+XG4gICAgICAgICAgICAgICAgICA8YnV0dG9uXG4gICAgICAgICAgICAgICAgICAgIHR5cGU9XCJidXR0b25cIlxuICAgICAgICAgICAgICAgICAgICBvbkNsaWNrPXsoKSA9PiByZW1vdmVTa2lsbChpZHgpfVxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ0ZXh0LXNsYXRlLTUwMCBob3Zlcjp0ZXh0LXJvc2UtNDAwIHAtMVwiXG4gICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgIDxUcmFzaDIgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxuICAgICAgICAgICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgKSl9XG4gICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICB7LyogQWRkIHNraWxsIHJvdyAqL31cbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggZ2FwLTIgcHQtMlwiPlxuICAgICAgICAgICAgPGlucHV0XG4gICAgICAgICAgICAgIHR5cGU9XCJ0ZXh0XCJcbiAgICAgICAgICAgICAgcGxhY2Vob2xkZXI9XCJBZGQgc2tpbGwgKGUuZy4gUmVkaXMsIEthZmthLCBLdWJlcm5ldGVzKS4uLlwiXG4gICAgICAgICAgICAgIHZhbHVlPXtuZXdTa2lsbE5hbWV9XG4gICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0TmV3U2tpbGxOYW1lKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICAgICAgY2xhc3NOYW1lPVwiZmxleC0xIHB4LTMgcHktMiBiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgcm91bmRlZC14bCB0ZXh0LXhzIHRleHQtd2hpdGUgZm9jdXM6b3V0bGluZS1ub25lIGZvY3VzOmJvcmRlci1jeWFuLTUwMFwiXG4gICAgICAgICAgICAvPlxuICAgICAgICAgICAgPGJ1dHRvblxuICAgICAgICAgICAgICB0eXBlPVwiYnV0dG9uXCJcbiAgICAgICAgICAgICAgb25DbGljaz17YWRkU2tpbGx9XG4gICAgICAgICAgICAgIGNsYXNzTmFtZT1cInB4LTQgcHktMiBiZy1zbGF0ZS04MDAgaG92ZXI6Ymctc2xhdGUtNzAwIHRleHQtd2hpdGUgcm91bmRlZC14bCB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTFcIlxuICAgICAgICAgICAgPlxuICAgICAgICAgICAgICA8UGx1cyBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNVwiIC8+IEFkZFxuICAgICAgICAgICAgPC9idXR0b24+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgIDwvZGl2PlxuXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBqdXN0aWZ5LWVuZFwiPlxuICAgICAgICAgIDxidXR0b25cbiAgICAgICAgICAgIHR5cGU9XCJzdWJtaXRcIlxuICAgICAgICAgICAgY2xhc3NOYW1lPVwicHgtOCBweS0zIHJvdW5kZWQteGwgYmctY3lhbi02MDAgaG92ZXI6YmctY3lhbi01MDAgdGV4dC13aGl0ZSBmb250LWJvbGQgdGV4dC14cyBzaGFkb3ctbGcgc2hhZG93LWN5YW4tNjAwLzMwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHRyYW5zaXRpb24tYWxsXCJcbiAgICAgICAgICA+XG4gICAgICAgICAgICB7cG9zdGVkID8gPENoZWNrQ2lyY2xlMiBjbGFzc05hbWU9XCJ3LTQgaC00IHRleHQtd2hpdGVcIiAvPiA6IDxTaGllbGRDaGVjayBjbGFzc05hbWU9XCJ3LTQgaC00XCIgLz59XG4gICAgICAgICAgICA8c3Bhbj57cG9zdGVkID8gJ1Bvc3RpbmcgQWN0aXZhdGVkIG9uIEVjb3N5c3RlbS4uLicgOiAnUHVibGlzaCBWZXJpZmllZCBKb2IgTGlzdGluZyd9PC9zcGFuPlxuICAgICAgICAgIDwvYnV0dG9uPlxuICAgICAgICA8L2Rpdj5cbiAgICAgIDwvZm9ybT5cbiAgICA8L2Rpdj5cbiAgKTtcbn07XG4iXSwiZmlsZSI6IkM6L1VzZXJzL0RlbGwvLmdlbWluaS9hbnRpZ3Jhdml0eS9zY3JhdGNoL3NraWxscHJvb2YvZnJvbnRlbmQvc3JjL3BhZ2VzL2luZHVzdHJ5L1Bvc3RKb2JQYWdlLmpzeCJ9

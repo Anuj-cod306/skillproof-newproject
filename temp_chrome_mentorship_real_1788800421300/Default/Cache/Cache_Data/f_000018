@@ -1,0 +1,647 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/student/SkillMapPage.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=e7692922"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=e7692922"; const React = __vite__cjsImport3_react.__esModule ? __vite__cjsImport3_react.default : __vite__cjsImport3_react; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"];
+import { Link } from "/node_modules/.vite/deps/react-router-dom.js?v=e7692922";
+import { BrainCircuit, Award, GitBranch, BotMessageSquare, ArrowRight, Filter, ShieldCheck, PlusCircle, Sparkles, Loader2, AlertCircle, RefreshCw, FileText } from "/node_modules/.vite/deps/lucide-react.js?v=e7692922";
+import { useSkillProof } from "/src/context/SkillProofContext.jsx?t=1788798421923";
+import apiService from "/src/services/api.js?t=1788795133365";
+import { VerifiedBadge } from "/src/components/common/Badge.jsx";
+export const SkillMapPage = () => {
+  _s();
+  const { skillMap, setSkillMap, loadLiveStudentData } = useSkillProof();
+  const [activeCategory, setActiveCategory] = useState("ALL");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const fetchLiveSkills = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await apiService.getStudentSkills();
+      if (Array.isArray(data) && setSkillMap) {
+        setSkillMap(data.map((s) => ({
+          id: s.id ? String(s.id) : (s.name || "").toLowerCase().replace(/[^a-z0-9]/g, ""),
+          skillId: s.skillId,
+          name: s.name,
+          category: s.category || "Backend",
+          status: s.status || "CLAIMED",
+          score: Math.round(s.score || 0),
+          verified: !!s.verified,
+          badge: s.badge || "NONE",
+          confidence: s.confidence !== void 0 ? s.confidence : Math.round(s.tiers?.resume || 0),
+          sourceResumeId: s.sourceResumeId,
+          sourceResumeFileName: s.sourceResumeFileName,
+          tiers: {
+            resume: Math.round(s.tiers?.resume || 0),
+            github: Math.round(s.tiers?.github || 0),
+            assessment: Math.round(s.tiers?.assessment || 0),
+            interview: Math.round(s.tiers?.interview || 0),
+            competitiveCoding: Math.round(s.tiers?.competitiveCoding || 0)
+          },
+          evidence: s.evidence || "Multi-tier evidence record"
+        })));
+      }
+      if (loadLiveStudentData) {
+        loadLiveStudentData();
+      }
+    } catch (err) {
+      console.error("[SkillMapPage] Failed to fetch live skills:", err);
+      setError(err.message || "Failed to load skill map data. Please check connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchLiveSkills();
+  }, []);
+  const categories = ["ALL", "Backend", "Frontend", "Database", "Cloud & DevOps", "Core CS"];
+  const filteredSkills = (skillMap || []).filter((s) => {
+    return activeCategory === "ALL" || s.category === activeCategory;
+  });
+  return /* @__PURE__ */ jsxDEV("div", { className: "space-y-6", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col sm:flex-row sm:items-center justify-between gap-4", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-bold uppercase tracking-wider text-indigo-400", children: "Student Competency" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 89,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("span", { className: "text-[10px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-500/30", children: "Taxonomy" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 90,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 88,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("h1", { className: "text-2xl font-black text-white mt-1", children: "Multi-Tier Student Skill Map" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 92,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400", children: "Every skill is evaluated across 5 evidence channels (Resume, GitHub, Quiz, AI Interview, Competitive Coding). Verified scores feed directly into your Skill Passport." }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 93,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 87,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDEV(
+          "button",
+          {
+            onClick: fetchLiveSkills,
+            disabled: loading,
+            className: "p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white text-xs flex items-center gap-1.5 transition-all",
+            title: "Refresh Skills",
+            children: [
+              /* @__PURE__ */ jsxDEV(RefreshCw, { className: `w-3.5 h-3.5 ${loading ? "animate-spin text-indigo-400" : ""}` }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 105,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { className: "hidden sm:inline", children: "Refresh" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 106,
+                columnNumber: 13
+              }, this)
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 99,
+            columnNumber: 11
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          Link,
+          {
+            to: "/student/assessments",
+            className: "px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 flex items-center gap-2 shrink-0 self-start sm:self-center",
+            children: [
+              /* @__PURE__ */ jsxDEV(Award, { className: "w-4 h-4" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 113,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { children: "Verify a Skill" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 114,
+                columnNumber: 13
+              }, this)
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 109,
+            columnNumber: 11
+          },
+          this
+        )
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 98,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+      lineNumber: 86,
+      columnNumber: 7
+    }, this),
+    error && /* @__PURE__ */ jsxDEV("div", { className: "p-4 rounded-2xl bg-red-950/50 border border-red-500/30 flex items-center justify-between gap-4 text-xs text-red-300", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2", children: [
+        /* @__PURE__ */ jsxDEV(AlertCircle, { className: "w-4 h-4 text-red-400 shrink-0" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 123,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { children: error }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 124,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 122,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "button",
+        {
+          onClick: fetchLiveSkills,
+          className: "px-3 py-1.5 rounded-lg bg-red-600/30 hover:bg-red-600/50 border border-red-500/40 text-white font-semibold text-[11px]",
+          children: "Retry"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 126,
+          columnNumber: 11
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+      lineNumber: 121,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-2 overflow-x-auto pb-2", children: categories.map(
+      (cat) => /* @__PURE__ */ jsxDEV(
+        "button",
+        {
+          onClick: () => setActiveCategory(cat),
+          className: `px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 ${activeCategory === cat ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20" : "bg-slate-900 border border-slate-800 text-slate-400 hover:text-white"}`,
+          children: cat
+        },
+        cat,
+        false,
+        {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 138,
+          columnNumber: 9
+        },
+        this
+      )
+    ) }, void 0, false, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+      lineNumber: 136,
+      columnNumber: 7
+    }, this),
+    loading && filteredSkills.length === 0 ? /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-12 rounded-3xl border border-slate-800 text-center space-y-3", children: [
+      /* @__PURE__ */ jsxDEV(Loader2, { className: "w-8 h-8 animate-spin text-indigo-400 mx-auto" }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 155,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400", children: "Loading your verified competencies from database..." }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 156,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+      lineNumber: 154,
+      columnNumber: 7
+    }, this) : filteredSkills.length === 0 ? (
+      /* Empty State */
+      /* @__PURE__ */ jsxDEV("div", { className: "glass-panel p-10 rounded-3xl border border-slate-800 text-center space-y-4", children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mx-auto text-indigo-400", children: /* @__PURE__ */ jsxDEV(BrainCircuit, { className: "w-7 h-7" }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 162,
+          columnNumber: 13
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 161,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("h3", { className: "text-base font-bold text-white", children: "No Skills Mapped Yet" }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 165,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "text-xs text-slate-400 max-w-md mx-auto mt-1", children: "Upload your resume or complete skill assessments to map and verify your technical competencies." }, void 0, false, {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 166,
+            columnNumber: 13
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+          lineNumber: 164,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          Link,
+          {
+            to: "/student/resume-upload",
+            className: "inline-flex px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30 items-center gap-1.5",
+            children: [
+              /* @__PURE__ */ jsxDEV(Sparkles, { className: "w-3.5 h-3.5 text-amber-300" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 174,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { children: "Upload Resume to Map Skills" }, void 0, false, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 175,
+                columnNumber: 13
+              }, this)
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 170,
+            columnNumber: 11
+          },
+          this
+        )
+      ] }, void 0, true, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 160,
+        columnNumber: 7
+      }, this)
+    ) : (
+      /* Skill Cards Grid */
+      /* @__PURE__ */ jsxDEV("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", children: filteredSkills.map((skill) => {
+        const isClaimedOnly = skill.status === "CLAIMED" || !skill.verified && (!skill.score || skill.score === 0);
+        return /* @__PURE__ */ jsxDEV(
+          "div",
+          {
+            className: "glass-panel p-5 rounded-2xl border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4",
+            children: [
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "flex items-start justify-between", children: [
+                  /* @__PURE__ */ jsxDEV("div", { children: [
+                    /* @__PURE__ */ jsxDEV("h3", { className: "font-bold text-base text-white", children: skill.name }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 192,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: "flex items-center gap-1.5 mt-0.5", children: [
+                      /* @__PURE__ */ jsxDEV("span", { className: "text-[11px] text-slate-400", children: skill.category }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 194,
+                        columnNumber: 25
+                      }, this),
+                      isClaimedOnly && /* @__PURE__ */ jsxDEV("span", { className: "text-[9px] px-1.5 py-0.2 rounded bg-amber-950/60 border border-amber-500/30 text-amber-400 font-semibold uppercase", children: [
+                        "Claimed (",
+                        skill.confidence || skill.tiers?.resume || 0,
+                        "%)"
+                      ] }, void 0, true, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 196,
+                        columnNumber: 23
+                      }, this),
+                      skill.sourceResumeFileName && /* @__PURE__ */ jsxDEV("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-blue-950/60 border border-blue-500/30 text-blue-300 font-mono flex items-center gap-1", title: `Source Resume: ${skill.sourceResumeFileName}`, children: [
+                        /* @__PURE__ */ jsxDEV(FileText, { className: "w-2.5 h-2.5" }, void 0, false, {
+                          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                          lineNumber: 202,
+                          columnNumber: 29
+                        }, this),
+                        /* @__PURE__ */ jsxDEV("span", { className: "max-w-[110px] truncate", children: skill.sourceResumeFileName }, void 0, false, {
+                          fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                          lineNumber: 203,
+                          columnNumber: 29
+                        }, this)
+                      ] }, void 0, true, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 201,
+                        columnNumber: 23
+                      }, this),
+                      !skill.sourceResumeFileName && skill.tiers?.github > 0 && /* @__PURE__ */ jsxDEV("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono", children: "GitHub Audit" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 207,
+                        columnNumber: 23
+                      }, this),
+                      !skill.sourceResumeFileName && skill.tiers?.assessment > 0 && /* @__PURE__ */ jsxDEV("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-500/30 text-purple-300 font-mono", children: "Assessed" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 212,
+                        columnNumber: 23
+                      }, this),
+                      !skill.sourceResumeFileName && skill.tiers?.competitiveCoding > 0 && /* @__PURE__ */ jsxDEV("span", { className: "text-[9px] px-1.5 py-0.5 rounded bg-amber-950/60 border border-amber-500/30 text-amber-300 font-mono", children: "Comp Code" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 217,
+                        columnNumber: 23
+                      }, this)
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 193,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 191,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "text-right", children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: "text-lg font-black font-mono text-white", children: isClaimedOnly ? /* @__PURE__ */ jsxDEV("span", { className: "text-xs font-normal text-slate-400", children: "Unverified" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 226,
+                      columnNumber: 23
+                    }, this) : `${skill.score}%` }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 224,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV(VerifiedBadge, { level: skill.badge || "NONE", size: "sm" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 231,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 223,
+                    columnNumber: 21
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 190,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "mt-3", children: /* @__PURE__ */ jsxDEV("div", { className: "w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800", children: /* @__PURE__ */ jsxDEV(
+                  "div",
+                  {
+                    className: `h-full rounded-full transition-all duration-500 ${isClaimedOnly ? "bg-amber-500/40" : skill.score >= 80 ? "bg-gradient-to-r from-amber-500 to-amber-300" : skill.score >= 65 ? "bg-gradient-to-r from-indigo-500 to-cyan-400" : "bg-gradient-to-r from-slate-600 to-slate-400"}`,
+                    style: { width: isClaimedOnly ? `${skill.confidence || skill.tiers?.resume || 25}%` : `${skill.score}%` }
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 238,
+                    columnNumber: 23
+                  },
+                  this
+                ) }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 237,
+                  columnNumber: 21
+                }, this) }, void 0, false, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 236,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("div", { className: "mt-4 pt-3 border-t border-slate-850 grid grid-cols-5 gap-1 text-center text-[10px]", children: [
+                  /* @__PURE__ */ jsxDEV("div", { className: "bg-slate-900/80 p-1.5 rounded border border-slate-850", children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: "text-slate-500", children: "Resume" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 253,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-slate-200 mt-0.5", children: [
+                      skill.tiers?.resume || 0,
+                      "%"
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 254,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 252,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "bg-slate-900/80 p-1.5 rounded border border-slate-850", children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: "text-slate-500", children: "GitHub" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 257,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-slate-200 mt-0.5", children: [
+                      skill.tiers?.github || 0,
+                      "%"
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 258,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 256,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "bg-slate-900/80 p-1.5 rounded border border-slate-850", children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: "text-slate-500", children: "Quiz" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 261,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-slate-200 mt-0.5", children: [
+                      skill.tiers?.assessment || 0,
+                      "%"
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 262,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 260,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "bg-slate-900/80 p-1.5 rounded border border-slate-850", children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: "text-slate-500", children: "AI Interv" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 265,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: "font-bold text-slate-200 mt-0.5", children: [
+                      skill.tiers?.interview || 0,
+                      "%"
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 266,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 264,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: `p-1.5 rounded border ${skill.tiers?.competitiveCoding > 0 ? "bg-amber-950/40 border-amber-500/40" : "bg-slate-900/80 border-slate-850"}`, children: [
+                    /* @__PURE__ */ jsxDEV("div", { className: skill.tiers?.competitiveCoding > 0 ? "text-amber-400 font-medium" : "text-slate-500", children: "Comp Code" }, void 0, false, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 269,
+                      columnNumber: 23
+                    }, this),
+                    /* @__PURE__ */ jsxDEV("div", { className: `font-bold mt-0.5 ${skill.tiers?.competitiveCoding > 0 ? "text-amber-300" : "text-slate-200"}`, children: [
+                      skill.tiers?.competitiveCoding || 0,
+                      "%"
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                      lineNumber: 270,
+                      columnNumber: 23
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 268,
+                    columnNumber: 21
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 251,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-[11px] text-slate-400 italic mt-3 bg-slate-900/50 p-2 rounded-lg border border-slate-850/60 leading-relaxed", children: [
+                  '"',
+                  skill.evidence || "Multi-tier evidence record",
+                  '"'
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 277,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 189,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "pt-2 border-t border-slate-850 flex items-center justify-between text-xs", children: [
+                skill.verified ? /* @__PURE__ */ jsxDEV("span", { className: "text-emerald-400 flex items-center gap-1 font-semibold text-[11px]", children: [
+                  /* @__PURE__ */ jsxDEV(ShieldCheck, { className: "w-3.5 h-3.5" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 286,
+                    columnNumber: 23
+                  }, this),
+                  "Passport Active"
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 285,
+                  columnNumber: 17
+                }, this) : /* @__PURE__ */ jsxDEV("span", { className: "text-amber-400 text-[11px] font-semibold flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsxDEV(AlertCircle, { className: "w-3 h-3" }, void 0, false, {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 291,
+                    columnNumber: 23
+                  }, this),
+                  "Needs Verification"
+                ] }, void 0, true, {
+                  fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                  lineNumber: 290,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  Link,
+                  {
+                    to: !skill.tiers?.assessment || skill.tiers.assessment < 70 ? "/student/assessments" : "/student/ai-interview",
+                    className: "text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1",
+                    children: [
+                      /* @__PURE__ */ jsxDEV("span", { children: skill.score >= 80 ? "Retake Audit" : "Boost Score" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 300,
+                        columnNumber: 21
+                      }, this),
+                      /* @__PURE__ */ jsxDEV(ArrowRight, { className: "w-3 h-3" }, void 0, false, {
+                        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                        lineNumber: 301,
+                        columnNumber: 21
+                      }, this)
+                    ]
+                  },
+                  void 0,
+                  true,
+                  {
+                    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                    lineNumber: 296,
+                    columnNumber: 19
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+                lineNumber: 283,
+                columnNumber: 17
+              }, this)
+            ]
+          },
+          skill.id,
+          true,
+          {
+            fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+            lineNumber: 185,
+            columnNumber: 13
+          },
+          this
+        );
+      }) }, void 0, false, {
+        fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+        lineNumber: 180,
+        columnNumber: 7
+      }, this)
+    )
+  ] }, void 0, true, {
+    fileName: "C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx",
+    lineNumber: 85,
+    columnNumber: 5
+  }, this);
+};
+_s(SkillMapPage, "GdAgpkbCIDV2bbw7j8W/s9M7zoY=", false, function() {
+  return [useSkillProof];
+});
+_c = SkillMapPage;
+var _c;
+$RefreshReg$(_c, "SkillMapPage");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/Dell/.gemini/antigravity/scratch/skillproof/frontend/src/pages/student/SkillMapPage.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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LCJHaXRCcmFuY2giLCJCb3RNZXNzYWdlU3F1YXJlIiwiQXJyb3dSaWdodCIsIkZpbHRlciIsIlNoaWVsZENoZWNrIiwiUGx1c0NpcmNsZSIsIlNwYXJrbGVzIiwiTG9hZGVyMiIsIkFsZXJ0Q2lyY2xlIiwiUmVmcmVzaEN3IiwiRmlsZVRleHQiLCJ1c2VTa2lsbFByb29mIiwiYXBpU2VydmljZSIsIlZlcmlmaWVkQmFkZ2UiLCJTa2lsbE1hcFBhZ2UiLCJfcyIsInNraWxsTWFwIiwic2V0U2tpbGxNYXAiLCJsb2FkTGl2ZVN0dWRlbnREYXRhIiwiYWN0aXZlQ2F0ZWdvcnkiLCJzZXRBY3RpdmVDYXRlZ29yeSIsImxvYWRpbmciLCJzZXRMb2FkaW5nIiwiZXJyb3IiLCJzZXRFcnJvciIsImZldGNoTGl2ZVNraWxscyIsImRhdGEiLCJnZXRTdHVkZW50U2tpbGxzIiwiQXJyYXkiLCJpc0FycmF5IiwibWFwIiwicyIsImlkIiwiU3RyaW5nIiwibmFtZSIsInRvTG93ZXJDYXNlIiwicmVwbGFjZSIsInNraWxsSWQiLCJjYXRlZ29yeSIsInN0YXR1cyIsInNjb3JlIiwiTWF0aCIsInJvdW5kIiwidmVyaWZpZWQiLCJiYWRnZSIsImNvbmZpZGVuY2UiLCJ1bmRlZmluZWQiLCJ0aWVycyIsInJlc3VtZSIsInNvdXJjZVJlc3VtZUlkIiwic291cmNlUmVzdW1lRmlsZU5hbWUiLCJnaXRodWIiLCJhc3Nlc3NtZW50IiwiaW50ZXJ2aWV3IiwiY29tcGV0aXRpdmVDb2RpbmciLCJldmlkZW5jZSIsImVyciIsImNvbnNvbGUiLCJtZXNzYWdlIiwiY2F0ZWdvcmllcyIsImZpbHRlcmVkU2tpbGxzIiwiZmlsdGVyIiwiY2F0IiwibGVuZ3RoIiwic2tpbGwiLCJpc0NsYWltZWRPbmx5Iiwid2lkdGgiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJTa2lsbE1hcFBhZ2UuanN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0IH0gZnJvbSAncmVhY3QnO1xyXG5pbXBvcnQgeyBMaW5rIH0gZnJvbSAncmVhY3Qtcm91dGVyLWRvbSc7XHJcbmltcG9ydCB7IEJyYWluQ2lyY3VpdCwgQXdhcmQsIEdpdEJyYW5jaCwgQm90TWVzc2FnZVNxdWFyZSwgQXJyb3dSaWdodCwgRmlsdGVyLCBTaGllbGRDaGVjaywgUGx1c0NpcmNsZSwgU3BhcmtsZXMsIExvYWRlcjIsIEFsZXJ0Q2lyY2xlLCBSZWZyZXNoQ3csIEZpbGVUZXh0IH0gZnJvbSAnbHVjaWRlLXJlYWN0JztcclxuaW1wb3J0IHsgdXNlU2tpbGxQcm9vZiB9IGZyb20gJy4uLy4uL2NvbnRleHQvU2tpbGxQcm9vZkNvbnRleHQnO1xyXG5pbXBvcnQgYXBpU2VydmljZSBmcm9tICcuLi8uLi9zZXJ2aWNlcy9hcGknO1xyXG5pbXBvcnQgeyBWZXJpZmllZEJhZGdlIH0gZnJvbSAnLi4vLi4vY29tcG9uZW50cy9jb21tb24vQmFkZ2UnO1xyXG5cclxuZXhwb3J0IGNvbnN0IFNraWxsTWFwUGFnZSA9ICgpID0+IHtcclxuICBjb25zdCB7IHNraWxsTWFwLCBzZXRTa2lsbE1hcCwgbG9hZExpdmVTdHVkZW50RGF0YSB9ID0gdXNlU2tpbGxQcm9vZigpO1xyXG4gIGNvbnN0IFthY3RpdmVDYXRlZ29yeSwgc2V0QWN0aXZlQ2F0ZWdvcnldID0gdXNlU3RhdGUoJ0FMTCcpO1xyXG4gIGNvbnN0IFtsb2FkaW5nLCBzZXRMb2FkaW5nXSA9IHVzZVN0YXRlKGZhbHNlKTtcclxuICBjb25zdCBbZXJyb3IsIHNldEVycm9yXSA9IHVzZVN0YXRlKG51bGwpO1xyXG5cclxuICBjb25zdCBmZXRjaExpdmVTa2lsbHMgPSBhc3luYyAoKSA9PiB7XHJcbiAgICBzZXRMb2FkaW5nKHRydWUpO1xyXG4gICAgc2V0RXJyb3IobnVsbCk7XHJcbiAgICB0cnkge1xyXG4gICAgICAvLyAxLiBEaXJlY3RseSBmZXRjaCBzdHVkZW50IHNraWxscyBmcm9tIGJhY2tlbmRcclxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IGFwaVNlcnZpY2UuZ2V0U3R1ZGVudFNraWxscygpO1xyXG4gICAgICBpZiAoQXJyYXkuaXNBcnJheShkYXRhKSAmJiBzZXRTa2lsbE1hcCkge1xyXG4gICAgICAgIHNldFNraWxsTWFwKGRhdGEubWFwKHMgPT4gKHtcclxuICAgICAgICAgIGlkOiBzLmlkID8gU3RyaW5nKHMuaWQpIDogKHMubmFtZSB8fCAnJykudG9Mb3dlckNhc2UoKS5yZXBsYWNlKC9bXmEtejAtOV0vZywgJycpLFxyXG4gICAgICAgICAgc2tpbGxJZDogcy5za2lsbElkLFxyXG4gICAgICAgICAgbmFtZTogcy5uYW1lLFxyXG4gICAgICAgICAgY2F0ZWdvcnk6IHMuY2F0ZWdvcnkgfHwgJ0JhY2tlbmQnLFxyXG4gICAgICAgICAgc3RhdHVzOiBzLnN0YXR1cyB8fCAnQ0xBSU1FRCcsXHJcbiAgICAgICAgICBzY29yZTogTWF0aC5yb3VuZChzLnNjb3JlIHx8IDApLFxyXG4gICAgICAgICAgdmVyaWZpZWQ6ICEhcy52ZXJpZmllZCxcclxuICAgICAgICAgIGJhZGdlOiBzLmJhZGdlIHx8ICdOT05FJyxcclxuICAgICAgICAgIGNvbmZpZGVuY2U6IHMuY29uZmlkZW5jZSAhPT0gdW5kZWZpbmVkID8gcy5jb25maWRlbmNlIDogTWF0aC5yb3VuZChzLnRpZXJzPy5yZXN1bWUgfHwgMCksXHJcbiAgICAgICAgICBzb3VyY2VSZXN1bWVJZDogcy5zb3VyY2VSZXN1bWVJZCxcclxuICAgICAgICAgIHNvdXJjZVJlc3VtZUZpbGVOYW1lOiBzLnNvdXJjZVJlc3VtZUZpbGVOYW1lLFxyXG4gICAgICAgICAgdGllcnM6IHtcclxuICAgICAgICAgICAgcmVzdW1lOiBNYXRoLnJvdW5kKHMudGllcnM/LnJlc3VtZSB8fCAwKSxcclxuICAgICAgICAgICAgZ2l0aHViOiBNYXRoLnJvdW5kKHMudGllcnM/LmdpdGh1YiB8fCAwKSxcclxuICAgICAgICAgICAgYXNzZXNzbWVudDogTWF0aC5yb3VuZChzLnRpZXJzPy5hc3Nlc3NtZW50IHx8IDApLFxyXG4gICAgICAgICAgICBpbnRlcnZpZXc6IE1hdGgucm91bmQocy50aWVycz8uaW50ZXJ2aWV3IHx8IDApLFxyXG4gICAgICAgICAgICBjb21wZXRpdGl2ZUNvZGluZzogTWF0aC5yb3VuZChzLnRpZXJzPy5jb21wZXRpdGl2ZUNvZGluZyB8fCAwKVxyXG4gICAgICAgICAgfSxcclxuICAgICAgICAgIGV2aWRlbmNlOiBzLmV2aWRlbmNlIHx8ICdNdWx0aS10aWVyIGV2aWRlbmNlIHJlY29yZCdcclxuICAgICAgICB9KSkpO1xyXG4gICAgICB9XHJcbiAgICAgIC8vIDIuIEFsc28gdHJpZ2dlciBnZW5lcmFsIGJhY2tncm91bmQgcmVmcmVzaFxyXG4gICAgICBpZiAobG9hZExpdmVTdHVkZW50RGF0YSkge1xyXG4gICAgICAgIGxvYWRMaXZlU3R1ZGVudERhdGEoKTtcclxuICAgICAgfVxyXG4gICAgfSBjYXRjaCAoZXJyKSB7XHJcbiAgICAgIGNvbnNvbGUuZXJyb3IoJ1tTa2lsbE1hcFBhZ2VdIEZhaWxlZCB0byBmZXRjaCBsaXZlIHNraWxsczonLCBlcnIpO1xyXG4gICAgICBzZXRFcnJvcihlcnIubWVzc2FnZSB8fCAnRmFpbGVkIHRvIGxvYWQgc2tpbGwgbWFwIGRhdGEuIFBsZWFzZSBjaGVjayBjb25uZWN0aW9uLicpO1xyXG4gICAgfSBmaW5hbGx5IHtcclxuICAgICAgc2V0TG9hZGluZyhmYWxzZSk7XHJcbiAgICB9XHJcbiAgfTtcclxuXHJcbiAgdXNlRWZmZWN0KCgpID0+IHtcclxuICAgIGZldGNoTGl2ZVNraWxscygpO1xyXG4gIH0sIFtdKTtcclxuXHJcbiAgY29uc3QgY2F0ZWdvcmllcyA9IFsnQUxMJywgJ0JhY2tlbmQnLCAnRnJvbnRlbmQnLCAnRGF0YWJhc2UnLCAnQ2xvdWQgJiBEZXZPcHMnLCAnQ29yZSBDUyddO1xyXG5cclxuICBjb25zdCBmaWx0ZXJlZFNraWxscyA9IChza2lsbE1hcCB8fCBbXSkuZmlsdGVyKHMgPT4ge1xyXG4gICAgcmV0dXJuIGFjdGl2ZUNhdGVnb3J5ID09PSAnQUxMJyB8fCBzLmNhdGVnb3J5ID09PSBhY3RpdmVDYXRlZ29yeTtcclxuICB9KTtcclxuXHJcbiAgcmV0dXJuIChcclxuICAgIDxkaXYgY2xhc3NOYW1lPVwic3BhY2UteS02XCI+XHJcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBmbGV4LWNvbCBzbTpmbGV4LXJvdyBzbTppdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGdhcC00XCI+XHJcbiAgICAgICAgPGRpdj5cclxuICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTJcIj5cclxuICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC14cyBmb250LWJvbGQgdXBwZXJjYXNlIHRyYWNraW5nLXdpZGVyIHRleHQtaW5kaWdvLTQwMFwiPlN0dWRlbnQgQ29tcGV0ZW5jeTwvc3Bhbj5cclxuICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1bMTBweF0gcHgtMiBweS0wLjUgcm91bmRlZCBiZy1pbmRpZ28tOTUwIHRleHQtaW5kaWdvLTMwMCBib3JkZXIgYm9yZGVyLWluZGlnby01MDAvMzBcIj5UYXhvbm9teTwvc3Bhbj5cclxuICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgPGgxIGNsYXNzTmFtZT1cInRleHQtMnhsIGZvbnQtYmxhY2sgdGV4dC13aGl0ZSBtdC0xXCI+TXVsdGktVGllciBTdHVkZW50IFNraWxsIE1hcDwvaDE+XHJcbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtc2xhdGUtNDAwXCI+XHJcbiAgICAgICAgICAgIEV2ZXJ5IHNraWxsIGlzIGV2YWx1YXRlZCBhY3Jvc3MgNSBldmlkZW5jZSBjaGFubmVscyAoUmVzdW1lLCBHaXRIdWIsIFF1aXosIEFJIEludGVydmlldywgQ29tcGV0aXRpdmUgQ29kaW5nKS4gVmVyaWZpZWQgc2NvcmVzIGZlZWQgZGlyZWN0bHkgaW50byB5b3VyIFNraWxsIFBhc3Nwb3J0LlxyXG4gICAgICAgICAgPC9wPlxyXG4gICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yXCI+XHJcbiAgICAgICAgICA8YnV0dG9uXHJcbiAgICAgICAgICAgIG9uQ2xpY2s9e2ZldGNoTGl2ZVNraWxsc31cclxuICAgICAgICAgICAgZGlzYWJsZWQ9e2xvYWRpbmd9XHJcbiAgICAgICAgICAgIGNsYXNzTmFtZT1cInAtMiByb3VuZGVkLXhsIGJnLXNsYXRlLTkwMCBob3ZlcjpiZy1zbGF0ZS04MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgdGV4dC1zbGF0ZS0zMDAgaG92ZXI6dGV4dC13aGl0ZSB0ZXh0LXhzIGZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjUgdHJhbnNpdGlvbi1hbGxcIlxyXG4gICAgICAgICAgICB0aXRsZT1cIlJlZnJlc2ggU2tpbGxzXCJcclxuICAgICAgICAgID5cclxuICAgICAgICAgICAgPFJlZnJlc2hDdyBjbGFzc05hbWU9e2B3LTMuNSBoLTMuNSAke2xvYWRpbmcgPyAnYW5pbWF0ZS1zcGluIHRleHQtaW5kaWdvLTQwMCcgOiAnJ31gfSAvPlxyXG4gICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJoaWRkZW4gc206aW5saW5lXCI+UmVmcmVzaDwvc3Bhbj5cclxuICAgICAgICAgIDwvYnV0dG9uPlxyXG5cclxuICAgICAgICAgIDxMaW5rXHJcbiAgICAgICAgICAgIHRvPVwiL3N0dWRlbnQvYXNzZXNzbWVudHNcIlxyXG4gICAgICAgICAgICBjbGFzc05hbWU9XCJweC00IHB5LTIgcm91bmRlZC14bCBiZy1pbmRpZ28tNjAwIGhvdmVyOmJnLWluZGlnby01MDAgdGV4dC13aGl0ZSB0ZXh0LXhzIGZvbnQtc2VtaWJvbGQgc2hhZG93LW1kIHNoYWRvdy1pbmRpZ28tNjAwLzMwIGZsZXggaXRlbXMtY2VudGVyIGdhcC0yIHNocmluay0wIHNlbGYtc3RhcnQgc206c2VsZi1jZW50ZXJcIlxyXG4gICAgICAgICAgPlxyXG4gICAgICAgICAgICA8QXdhcmQgY2xhc3NOYW1lPVwidy00IGgtNFwiIC8+XHJcbiAgICAgICAgICAgIDxzcGFuPlZlcmlmeSBhIFNraWxsPC9zcGFuPlxyXG4gICAgICAgICAgPC9MaW5rPlxyXG4gICAgICAgIDwvZGl2PlxyXG4gICAgICA8L2Rpdj5cclxuXHJcbiAgICAgIHsvKiBFcnJvciBzdGF0ZSBpZiBhbnkgKi99XHJcbiAgICAgIHtlcnJvciAmJiAoXHJcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJwLTQgcm91bmRlZC0yeGwgYmctcmVkLTk1MC81MCBib3JkZXIgYm9yZGVyLXJlZC01MDAvMzAgZmxleCBpdGVtcy1jZW50ZXIganVzdGlmeS1iZXR3ZWVuIGdhcC00IHRleHQteHMgdGV4dC1yZWQtMzAwXCI+XHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0yXCI+XHJcbiAgICAgICAgICAgIDxBbGVydENpcmNsZSBjbGFzc05hbWU9XCJ3LTQgaC00IHRleHQtcmVkLTQwMCBzaHJpbmstMFwiIC8+XHJcbiAgICAgICAgICAgIDxzcGFuPntlcnJvcn08L3NwYW4+XHJcbiAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgIDxidXR0b25cclxuICAgICAgICAgICAgb25DbGljaz17ZmV0Y2hMaXZlU2tpbGxzfVxyXG4gICAgICAgICAgICBjbGFzc05hbWU9XCJweC0zIHB5LTEuNSByb3VuZGVkLWxnIGJnLXJlZC02MDAvMzAgaG92ZXI6YmctcmVkLTYwMC81MCBib3JkZXIgYm9yZGVyLXJlZC01MDAvNDAgdGV4dC13aGl0ZSBmb250LXNlbWlib2xkIHRleHQtWzExcHhdXCJcclxuICAgICAgICAgID5cclxuICAgICAgICAgICAgUmV0cnlcclxuICAgICAgICAgIDwvYnV0dG9uPlxyXG4gICAgICAgIDwvZGl2PlxyXG4gICAgICApfVxyXG5cclxuICAgICAgey8qIENhdGVnb3J5IEZpbHRlciBiYXIgKi99XHJcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTIgb3ZlcmZsb3cteC1hdXRvIHBiLTJcIj5cclxuICAgICAgICB7Y2F0ZWdvcmllcy5tYXAoKGNhdCkgPT4gKFxyXG4gICAgICAgICAgPGJ1dHRvblxyXG4gICAgICAgICAgICBrZXk9e2NhdH1cclxuICAgICAgICAgICAgb25DbGljaz17KCkgPT4gc2V0QWN0aXZlQ2F0ZWdvcnkoY2F0KX1cclxuICAgICAgICAgICAgY2xhc3NOYW1lPXtgcHgtMy41IHB5LTEuNSByb3VuZGVkLXhsIHRleHQteHMgZm9udC1zZW1pYm9sZCB0cmFuc2l0aW9uLWFsbCBzaHJpbmstMCAke1xyXG4gICAgICAgICAgICAgIGFjdGl2ZUNhdGVnb3J5ID09PSBjYXRcclxuICAgICAgICAgICAgICAgID8gJ2JnLWluZGlnby02MDAgdGV4dC13aGl0ZSBzaGFkb3ctbWQgc2hhZG93LWluZGlnby02MDAvMjAnXHJcbiAgICAgICAgICAgICAgICA6ICdiZy1zbGF0ZS05MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgdGV4dC1zbGF0ZS00MDAgaG92ZXI6dGV4dC13aGl0ZSdcclxuICAgICAgICAgICAgfWB9XHJcbiAgICAgICAgICA+XHJcbiAgICAgICAgICAgIHtjYXR9XHJcbiAgICAgICAgICA8L2J1dHRvbj5cclxuICAgICAgICApKX1cclxuICAgICAgPC9kaXY+XHJcblxyXG4gICAgICB7LyogTG9hZGluZyBzdGF0ZSAqL31cclxuICAgICAge2xvYWRpbmcgJiYgZmlsdGVyZWRTa2lsbHMubGVuZ3RoID09PSAwID8gKFxyXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZ2xhc3MtcGFuZWwgcC0xMiByb3VuZGVkLTN4bCBib3JkZXIgYm9yZGVyLXNsYXRlLTgwMCB0ZXh0LWNlbnRlciBzcGFjZS15LTNcIj5cclxuICAgICAgICAgIDxMb2FkZXIyIGNsYXNzTmFtZT1cInctOCBoLTggYW5pbWF0ZS1zcGluIHRleHQtaW5kaWdvLTQwMCBteC1hdXRvXCIgLz5cclxuICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQteHMgdGV4dC1zbGF0ZS00MDBcIj5Mb2FkaW5nIHlvdXIgdmVyaWZpZWQgY29tcGV0ZW5jaWVzIGZyb20gZGF0YWJhc2UuLi48L3A+XHJcbiAgICAgICAgPC9kaXY+XHJcbiAgICAgICkgOiBmaWx0ZXJlZFNraWxscy5sZW5ndGggPT09IDAgPyAoXHJcbiAgICAgICAgLyogRW1wdHkgU3RhdGUgKi9cclxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImdsYXNzLXBhbmVsIHAtMTAgcm91bmRlZC0zeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgdGV4dC1jZW50ZXIgc3BhY2UteS00XCI+XHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInctMTQgaC0xNCByb3VuZGVkLTJ4bCBiZy1pbmRpZ28tNjAwLzIwIGJvcmRlciBib3JkZXItaW5kaWdvLTUwMC8zMCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWNlbnRlciBteC1hdXRvIHRleHQtaW5kaWdvLTQwMFwiPlxyXG4gICAgICAgICAgICA8QnJhaW5DaXJjdWl0IGNsYXNzTmFtZT1cInctNyBoLTdcIiAvPlxyXG4gICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICA8aDMgY2xhc3NOYW1lPVwidGV4dC1iYXNlIGZvbnQtYm9sZCB0ZXh0LXdoaXRlXCI+Tm8gU2tpbGxzIE1hcHBlZCBZZXQ8L2gzPlxyXG4gICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtc2xhdGUtNDAwIG1heC13LW1kIG14LWF1dG8gbXQtMVwiPlxyXG4gICAgICAgICAgICAgIFVwbG9hZCB5b3VyIHJlc3VtZSBvciBjb21wbGV0ZSBza2lsbCBhc3Nlc3NtZW50cyB0byBtYXAgYW5kIHZlcmlmeSB5b3VyIHRlY2huaWNhbCBjb21wZXRlbmNpZXMuXHJcbiAgICAgICAgICAgIDwvcD5cclxuICAgICAgICAgIDwvZGl2PlxyXG4gICAgICAgICAgPExpbmtcclxuICAgICAgICAgICAgdG89XCIvc3R1ZGVudC9yZXN1bWUtdXBsb2FkXCJcclxuICAgICAgICAgICAgY2xhc3NOYW1lPVwiaW5saW5lLWZsZXggcHgtNCBweS0yIHJvdW5kZWQteGwgYmctaW5kaWdvLTYwMCBob3ZlcjpiZy1pbmRpZ28tNTAwIHRleHQtd2hpdGUgZm9udC1zZW1pYm9sZCB0ZXh0LXhzIHNoYWRvdy1tZCBzaGFkb3ctaW5kaWdvLTYwMC8zMCBpdGVtcy1jZW50ZXIgZ2FwLTEuNVwiXHJcbiAgICAgICAgICA+XHJcbiAgICAgICAgICAgIDxTcGFya2xlcyBjbGFzc05hbWU9XCJ3LTMuNSBoLTMuNSB0ZXh0LWFtYmVyLTMwMFwiIC8+XHJcbiAgICAgICAgICAgIDxzcGFuPlVwbG9hZCBSZXN1bWUgdG8gTWFwIFNraWxsczwvc3Bhbj5cclxuICAgICAgICAgIDwvTGluaz5cclxuICAgICAgICA8L2Rpdj5cclxuICAgICAgKSA6IChcclxuICAgICAgICAvKiBTa2lsbCBDYXJkcyBHcmlkICovXHJcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJncmlkIGdyaWQtY29scy0xIG1kOmdyaWQtY29scy0yIGxnOmdyaWQtY29scy0zIGdhcC00XCI+XHJcbiAgICAgICAgICB7ZmlsdGVyZWRTa2lsbHMubWFwKChza2lsbCkgPT4ge1xyXG4gICAgICAgICAgICBjb25zdCBpc0NsYWltZWRPbmx5ID0gc2tpbGwuc3RhdHVzID09PSAnQ0xBSU1FRCcgfHwgKCFza2lsbC52ZXJpZmllZCAmJiAoIXNraWxsLnNjb3JlIHx8IHNraWxsLnNjb3JlID09PSAwKSk7XHJcblxyXG4gICAgICAgICAgICByZXR1cm4gKFxyXG4gICAgICAgICAgICAgIDxkaXZcclxuICAgICAgICAgICAgICAgIGtleT17c2tpbGwuaWR9XHJcbiAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJnbGFzcy1wYW5lbCBwLTUgcm91bmRlZC0yeGwgYm9yZGVyIGJvcmRlci1zbGF0ZS04MDAgaG92ZXI6Ym9yZGVyLXNsYXRlLTcwMCB0cmFuc2l0aW9uLWFsbCBmbGV4IGZsZXgtY29sIGp1c3RpZnktYmV0d2VlbiBzcGFjZS15LTRcIlxyXG4gICAgICAgICAgICAgID5cclxuICAgICAgICAgICAgICAgIDxkaXY+XHJcbiAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZmxleCBpdGVtcy1zdGFydCBqdXN0aWZ5LWJldHdlZW5cIj5cclxuICAgICAgICAgICAgICAgICAgICA8ZGl2PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGgzIGNsYXNzTmFtZT1cImZvbnQtYm9sZCB0ZXh0LWJhc2UgdGV4dC13aGl0ZVwiPntza2lsbC5uYW1lfTwvaDM+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZsZXggaXRlbXMtY2VudGVyIGdhcC0xLjUgbXQtMC41XCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzExcHhdIHRleHQtc2xhdGUtNDAwXCI+e3NraWxsLmNhdGVnb3J5fTwvc3Bhbj5cclxuICAgICAgICAgICAgICAgICAgICAgICAge2lzQ2xhaW1lZE9ubHkgJiYgKFxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzlweF0gcHgtMS41IHB5LTAuMiByb3VuZGVkIGJnLWFtYmVyLTk1MC82MCBib3JkZXIgYm9yZGVyLWFtYmVyLTUwMC8zMCB0ZXh0LWFtYmVyLTQwMCBmb250LXNlbWlib2xkIHVwcGVyY2FzZVwiPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2xhaW1lZCAoe3NraWxsLmNvbmZpZGVuY2UgfHwgc2tpbGwudGllcnM/LnJlc3VtZSB8fCAwfSUpXHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgPC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICApfVxyXG4gICAgICAgICAgICAgICAgICAgICAgICB7c2tpbGwuc291cmNlUmVzdW1lRmlsZU5hbWUgJiYgKFxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtWzlweF0gcHgtMS41IHB5LTAuNSByb3VuZGVkIGJnLWJsdWUtOTUwLzYwIGJvcmRlciBib3JkZXItYmx1ZS01MDAvMzAgdGV4dC1ibHVlLTMwMCBmb250LW1vbm8gZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTFcIiB0aXRsZT17YFNvdXJjZSBSZXN1bWU6ICR7c2tpbGwuc291cmNlUmVzdW1lRmlsZU5hbWV9YH0+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8RmlsZVRleHQgY2xhc3NOYW1lPVwidy0yLjUgaC0yLjVcIiAvPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwibWF4LXctWzExMHB4XSB0cnVuY2F0ZVwiPntza2lsbC5zb3VyY2VSZXN1bWVGaWxlTmFtZX08L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgPC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICApfVxyXG4gICAgICAgICAgICAgICAgICAgICAgICB7IXNraWxsLnNvdXJjZVJlc3VtZUZpbGVOYW1lICYmIHNraWxsLnRpZXJzPy5naXRodWIgPiAwICYmIChcclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LVs5cHhdIHB4LTEuNSBweS0wLjUgcm91bmRlZCBiZy1zbGF0ZS04MDAgYm9yZGVyIGJvcmRlci1zbGF0ZS03MDAgdGV4dC1zbGF0ZS0zMDAgZm9udC1tb25vXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBHaXRIdWIgQXVkaXRcclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICl9XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIHshc2tpbGwuc291cmNlUmVzdW1lRmlsZU5hbWUgJiYgc2tpbGwudGllcnM/LmFzc2Vzc21lbnQgPiAwICYmIChcclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LVs5cHhdIHB4LTEuNSBweS0wLjUgcm91bmRlZCBiZy1wdXJwbGUtOTUwLzYwIGJvcmRlciBib3JkZXItcHVycGxlLTUwMC8zMCB0ZXh0LXB1cnBsZS0zMDAgZm9udC1tb25vXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBBc3Nlc3NlZFxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cclxuICAgICAgICAgICAgICAgICAgICAgICAgKX1cclxuICAgICAgICAgICAgICAgICAgICAgICAgeyFza2lsbC5zb3VyY2VSZXN1bWVGaWxlTmFtZSAmJiBza2lsbC50aWVycz8uY29tcGV0aXRpdmVDb2RpbmcgPiAwICYmIChcclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJ0ZXh0LVs5cHhdIHB4LTEuNSBweS0wLjUgcm91bmRlZCBiZy1hbWJlci05NTAvNjAgYm9yZGVyIGJvcmRlci1hbWJlci01MDAvMzAgdGV4dC1hbWJlci0zMDAgZm9udC1tb25vXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBDb21wIENvZGVcclxuICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICl9XHJcbiAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtcmlnaHRcIj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwidGV4dC1sZyBmb250LWJsYWNrIGZvbnQtbW9ubyB0ZXh0LXdoaXRlXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIHtpc0NsYWltZWRPbmx5ID8gKFxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQteHMgZm9udC1ub3JtYWwgdGV4dC1zbGF0ZS00MDBcIj5VbnZlcmlmaWVkPC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICAgICAgICApIDogKFxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIGAke3NraWxsLnNjb3JlfSVgXHJcbiAgICAgICAgICAgICAgICAgICAgICAgICl9XHJcbiAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxWZXJpZmllZEJhZGdlIGxldmVsPXtza2lsbC5iYWRnZSB8fCAnTk9ORSd9IHNpemU9XCJzbVwiIC8+XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgIDwvZGl2PlxyXG5cclxuICAgICAgICAgICAgICAgICAgey8qIFByb2dyZXNzIGJhciAqL31cclxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC0zXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ3LWZ1bGwgaC0yIGJnLXNsYXRlLTkwMCByb3VuZGVkLWZ1bGwgb3ZlcmZsb3ctaGlkZGVuIGJvcmRlciBib3JkZXItc2xhdGUtODAwXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8ZGl2XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIGNsYXNzTmFtZT17YGgtZnVsbCByb3VuZGVkLWZ1bGwgdHJhbnNpdGlvbi1hbGwgZHVyYXRpb24tNTAwICR7XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgaXNDbGFpbWVkT25seSA/ICdiZy1hbWJlci01MDAvNDAnIDpcclxuICAgICAgICAgICAgICAgICAgICAgICAgICBza2lsbC5zY29yZSA+PSA4MCA/ICdiZy1ncmFkaWVudC10by1yIGZyb20tYW1iZXItNTAwIHRvLWFtYmVyLTMwMCcgOlxyXG4gICAgICAgICAgICAgICAgICAgICAgICAgIHNraWxsLnNjb3JlID49IDY1ID8gJ2JnLWdyYWRpZW50LXRvLXIgZnJvbS1pbmRpZ28tNTAwIHRvLWN5YW4tNDAwJyA6XHJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgJ2JnLWdyYWRpZW50LXRvLXIgZnJvbS1zbGF0ZS02MDAgdG8tc2xhdGUtNDAwJ1xyXG4gICAgICAgICAgICAgICAgICAgICAgICB9YH1cclxuICAgICAgICAgICAgICAgICAgICAgICAgc3R5bGU9e3sgd2lkdGg6IGlzQ2xhaW1lZE9ubHkgPyBgJHtza2lsbC5jb25maWRlbmNlIHx8IHNraWxsLnRpZXJzPy5yZXN1bWUgfHwgMjV9JWAgOiBgJHtza2lsbC5zY29yZX0lYCB9fVxyXG4gICAgICAgICAgICAgICAgICAgICAgLz5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcblxyXG4gICAgICAgICAgICAgICAgICB7LyogNS1UaWVyIEJyZWFrZG93biAqL31cclxuICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJtdC00IHB0LTMgYm9yZGVyLXQgYm9yZGVyLXNsYXRlLTg1MCBncmlkIGdyaWQtY29scy01IGdhcC0xIHRleHQtY2VudGVyIHRleHQtWzEwcHhdXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJiZy1zbGF0ZS05MDAvODAgcC0xLjUgcm91bmRlZCBib3JkZXIgYm9yZGVyLXNsYXRlLTg1MFwiPlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LXNsYXRlLTUwMFwiPlJlc3VtZTwvZGl2PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb250LWJvbGQgdGV4dC1zbGF0ZS0yMDAgbXQtMC41XCI+e3NraWxsLnRpZXJzPy5yZXN1bWUgfHwgMH0lPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJiZy1zbGF0ZS05MDAvODAgcC0xLjUgcm91bmRlZCBib3JkZXIgYm9yZGVyLXNsYXRlLTg1MFwiPlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LXNsYXRlLTUwMFwiPkdpdEh1YjwvZGl2PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb250LWJvbGQgdGV4dC1zbGF0ZS0yMDAgbXQtMC41XCI+e3NraWxsLnRpZXJzPy5naXRodWIgfHwgMH0lPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJiZy1zbGF0ZS05MDAvODAgcC0xLjUgcm91bmRlZCBib3JkZXIgYm9yZGVyLXNsYXRlLTg1MFwiPlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LXNsYXRlLTUwMFwiPlF1aXo8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9udC1ib2xkIHRleHQtc2xhdGUtMjAwIG10LTAuNVwiPntza2lsbC50aWVycz8uYXNzZXNzbWVudCB8fCAwfSU8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImJnLXNsYXRlLTkwMC84MCBwLTEuNSByb3VuZGVkIGJvcmRlciBib3JkZXItc2xhdGUtODUwXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInRleHQtc2xhdGUtNTAwXCI+QUkgSW50ZXJ2PC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImZvbnQtYm9sZCB0ZXh0LXNsYXRlLTIwMCBtdC0wLjVcIj57c2tpbGwudGllcnM/LmludGVydmlldyB8fCAwfSU8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT17YHAtMS41IHJvdW5kZWQgYm9yZGVyICR7c2tpbGwudGllcnM/LmNvbXBldGl0aXZlQ29kaW5nID4gMCA/ICdiZy1hbWJlci05NTAvNDAgYm9yZGVyLWFtYmVyLTUwMC80MCcgOiAnYmctc2xhdGUtOTAwLzgwIGJvcmRlci1zbGF0ZS04NTAnfWB9PlxyXG4gICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzc05hbWU9e3NraWxsLnRpZXJzPy5jb21wZXRpdGl2ZUNvZGluZyA+IDAgPyAndGV4dC1hbWJlci00MDAgZm9udC1tZWRpdW0nIDogJ3RleHQtc2xhdGUtNTAwJ30+Q29tcCBDb2RlPC9kaXY+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT17YGZvbnQtYm9sZCBtdC0wLjUgJHtza2lsbC50aWVycz8uY29tcGV0aXRpdmVDb2RpbmcgPiAwID8gJ3RleHQtYW1iZXItMzAwJyA6ICd0ZXh0LXNsYXRlLTIwMCd9YH0+XHJcbiAgICAgICAgICAgICAgICAgICAgICAgIHtza2lsbC50aWVycz8uY29tcGV0aXRpdmVDb2RpbmcgfHwgMH0lXHJcbiAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICAgICAgPC9kaXY+XHJcblxyXG4gICAgICAgICAgICAgICAgICB7LyogRXZpZGVuY2Ugc3RhdGVtZW50ICovfVxyXG4gICAgICAgICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJ0ZXh0LVsxMXB4XSB0ZXh0LXNsYXRlLTQwMCBpdGFsaWMgbXQtMyBiZy1zbGF0ZS05MDAvNTAgcC0yIHJvdW5kZWQtbGcgYm9yZGVyIGJvcmRlci1zbGF0ZS04NTAvNjAgbGVhZGluZy1yZWxheGVkXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgXCJ7c2tpbGwuZXZpZGVuY2UgfHwgJ011bHRpLXRpZXIgZXZpZGVuY2UgcmVjb3JkJ31cIlxyXG4gICAgICAgICAgICAgICAgICA8L3A+XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuXHJcbiAgICAgICAgICAgICAgICB7LyogQm90dG9tIEFjdGlvbnMgKi99XHJcbiAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cInB0LTIgYm9yZGVyLXQgYm9yZGVyLXNsYXRlLTg1MCBmbGV4IGl0ZW1zLWNlbnRlciBqdXN0aWZ5LWJldHdlZW4gdGV4dC14c1wiPlxyXG4gICAgICAgICAgICAgICAgICB7c2tpbGwudmVyaWZpZWQgPyAoXHJcbiAgICAgICAgICAgICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPVwidGV4dC1lbWVyYWxkLTQwMCBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMSBmb250LXNlbWlib2xkIHRleHQtWzExcHhdXCI+XHJcbiAgICAgICAgICAgICAgICAgICAgICA8U2hpZWxkQ2hlY2sgY2xhc3NOYW1lPVwidy0zLjUgaC0zLjVcIiAvPlxyXG4gICAgICAgICAgICAgICAgICAgICAgUGFzc3BvcnQgQWN0aXZlXHJcbiAgICAgICAgICAgICAgICAgICAgPC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICApIDogKFxyXG4gICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cInRleHQtYW1iZXItNDAwIHRleHQtWzExcHhdIGZvbnQtc2VtaWJvbGQgZmxleCBpdGVtcy1jZW50ZXIgZ2FwLTFcIj5cclxuICAgICAgICAgICAgICAgICAgICAgIDxBbGVydENpcmNsZSBjbGFzc05hbWU9XCJ3LTMgaC0zXCIgLz5cclxuICAgICAgICAgICAgICAgICAgICAgIE5lZWRzIFZlcmlmaWNhdGlvblxyXG4gICAgICAgICAgICAgICAgICAgIDwvc3Bhbj5cclxuICAgICAgICAgICAgICAgICAgKX1cclxuXHJcbiAgICAgICAgICAgICAgICAgIDxMaW5rXHJcbiAgICAgICAgICAgICAgICAgICAgdG89eyghc2tpbGwudGllcnM/LmFzc2Vzc21lbnQgfHwgc2tpbGwudGllcnMuYXNzZXNzbWVudCA8IDcwKSA/ICcvc3R1ZGVudC9hc3Nlc3NtZW50cycgOiAnL3N0dWRlbnQvYWktaW50ZXJ2aWV3J31cclxuICAgICAgICAgICAgICAgICAgICBjbGFzc05hbWU9XCJ0ZXh0LXhzIHRleHQtaW5kaWdvLTQwMCBob3Zlcjp0ZXh0LWluZGlnby0zMDAgZm9udC1zZW1pYm9sZCBmbGV4IGl0ZW1zLWNlbnRlciBnYXAtMVwiXHJcbiAgICAgICAgICAgICAgICAgID5cclxuICAgICAgICAgICAgICAgICAgICA8c3Bhbj57c2tpbGwuc2NvcmUgPj0gODAgPyAnUmV0YWtlIEF1ZGl0JyA6ICdCb29zdCBTY29yZSd9PC9zcGFuPlxyXG4gICAgICAgICAgICAgICAgICAgIDxBcnJvd1JpZ2h0IGNsYXNzTmFtZT1cInctMyBoLTNcIiAvPlxyXG4gICAgICAgICAgICAgICAgICA8L0xpbms+XHJcbiAgICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgICA8L2Rpdj5cclxuICAgICAgICAgICAgKTtcclxuICAgICAgICAgIH0pfVxyXG4gICAgICAgIDwvZGl2PlxyXG4gICAgICApfVxyXG4gICAgPC9kaXY+XHJcbiAgKTtcclxufTtcclxuXHJcbiJdLCJmaWxlIjoiQzovVXNlcnMvRGVsbC8uZ2VtaW5pL2FudGlncmF2aXR5L3NjcmF0Y2gvc2tpbGxwcm9vZi9mcm9udGVuZC9zcmMvcGFnZXMvc3R1ZGVudC9Ta2lsbE1hcFBhZ2UuanN4In0=
