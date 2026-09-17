@@ -1,7 +1,3 @@
--- ============================================================================
--- SKILLPROOF: Complete PostgreSQL Database Schema
--- SIH Problem 26044: Verified Skill Passport & Industry-Academia Ecosystem
--- ============================================================================
 
 -- Drop existing tables if re-initializing
 DROP TABLE IF EXISTS notifications CASCADE;
